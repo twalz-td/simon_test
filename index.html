@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Myrtle Beach Competitive Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --co:#0B7B87;--co-b:#3FBFC4;
+  --obx:#5C6BC0;--virginiabeach:#2E7D9E;--hiltonhead:#4A7C59;--charleston:#9C4A9C;
+  --oceancity:#C0392B;--panamacity:#D4820A;--gulfshores:#1B7FC4;--gatlinburg:#7B5E3D;
+  --orlando:#8B3A3A;--cancun:#1A7F6E;--pinehurst:#5C4033;
+  --ink:#0B2530;--mist:#5B7A8A;--faint:#8FA8B8;--bg:#F0F5F6;
+  --border:rgba(11,37,48,0.1);--bsoft:rgba(11,37,48,0.06);
+}
+html,body{height:100%;font-family:'Inter',sans-serif;background:#E7F0F1;color:var(--ink)}
+#root{height:100%;display:flex;flex-direction:column;max-width:1300px;margin:0 auto;box-shadow:0 0 40px rgba(0,0,0,0.12)}
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0}
+#topbar-left{display:flex;align-items:center;gap:10px}
+.lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+#nav{display:flex;gap:6px;background:#F0F5F6;border-radius:999px;padding:4px}
+.ntab{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px;border:none;background:transparent;color:var(--mist);cursor:pointer;transition:all .15s}
+.ntab.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+#hero{padding:16px 20px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0}
+#hero h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(18px,2.2vw,28px);color:var(--ink);line-height:1.1}
+#hero p{font-size:13px;color:var(--mist);margin-top:4px}
+#view{display:flex;flex:1;overflow:hidden}
+#sidebar{width:25%;min-width:200px;border-right:1px solid var(--border);overflow-y:auto;padding:16px;background:#fff;flex-shrink:0}
+#canvas{flex:1;overflow-y:auto;padding:20px;background:var(--bg);min-width:0}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 3px 14px -6px rgba(11,60,70,.13)}
+.sec-head{margin-bottom:8px}
+.cpill{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:10px;border:1px solid var(--border);background:#F2F8F9;font-size:13px;font-weight:500;color:var(--mist);cursor:pointer;transition:all .15s;text-align:left;font-family:'Inter',sans-serif;line-height:1.3;margin-bottom:6px}
+.cpill:hover{border-color:var(--faint);color:var(--ink)}
+.cpill.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cpill .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sdiv{border-top:1px solid var(--bsoft);padding-top:14px;margin-top:6px}
+.fadein{animation:fi .25s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.gauge-wrap{position:relative;height:9px;border-radius:999px;background:linear-gradient(90deg,#0B7B87 0%,#B07E28 54%,#C64B4B 100%);border:1px solid var(--bsoft);margin:8px 0}
+.gauge-needle{position:absolute;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.2);transition:left .4s ease}
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.swot-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px}
+.swot-box ul{list-style:none;padding:0;margin-top:8px}
+.swot-box li{font-size:12.5px;color:var(--ink);padding:4px 0 4px 14px;position:relative;line-height:1.5;border-bottom:1px solid var(--bsoft)}
+.swot-box li:last-child{border-bottom:none}
+.swot-box li::before{content:'•';position:absolute;left:0;color:var(--faint)}
+.map-tok{position:absolute;transform:translate(-50%,-50%);z-index:10;transition:left .5s ease-in-out,top .5s ease-in-out;overflow:visible}
+.tok-ring{position:absolute;inset:-14px;border-radius:50%;border:1.5px solid currentColor;opacity:.38;pointer-events:none}
+.tok-dot{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:#fff;letter-spacing:.02em;user-select:none;position:relative;z-index:1}
+.brand-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px}
+.brand-bar-wrap{height:8px;border-radius:999px;background:#F0F5F6;border:1px solid var(--bsoft);margin:8px 0;overflow:hidden}
+.brand-bar-fill{height:100%;border-radius:999px;transition:width .4s ease}
+#logo-mark{display:flex;flex-direction:column;align-items:center;line-height:1;flex-shrink:0}
+#logo-mark .top{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.35em;color:var(--co);font-weight:700}
+#logo-mark .mid{font-family:'Pacifico',cursive;font-size:30px;color:var(--ink);margin:1px 0}
+#logo-mark .bot{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.22em;color:var(--mist);font-weight:700}
+.note{font-size:11px;color:var(--faint)}
+</style>
+</head>
+<body>
+<div id="root">
+  <div id="topbar">
+    <div id="topbar-left">
+      <span class="lbl"><b style="color:var(--ink)">MMGY</b> &middot; Data Strategy</span>
+    </div>
+    <span class="lbl" style="border:1px solid var(--border);border-radius:999px;padding:4px 12px">Myrtle Beach &middot; Destination Intelligence</span>
+  </div>
+  <div id="hero">
+    <div style="display:flex;align-items:center;gap:20px">
+      <div id="logo-mark">
+        <span class="top">VISIT</span>
+        <span class="mid">Myrtle Beach</span>
+        <span class="bot">SOUTH&nbsp;CAROLINA</span>
+      </div>
+      <div>
+        <h1>Myrtle Beach Destination Competitive Analysis</h1>
+        <p id="sub"></p>
+      </div>
+      <div id="nav" style="margin-left:auto;flex-shrink:0">
+        <button class="ntab on" onclick="setTab('swot')">&#x2022; Head-to-Head SWOT</button>
+        <button class="ntab" onclick="setTab('brand')">&#x2022; Brand vs. Delivery</button>
+        <button class="ntab" onclick="setTab('sandbox')">&#x2022; Strategic Sandbox</button>
+      </div>
+    </div>
+  </div>
+  <div id="view">
+    <div id="sidebar"></div>
+    <div id="canvas"></div>
+  </div>
+</div>
+<script>
+function g(id){return document.getElementById(id)}
+
+// ── COLOR MAP ──────────────────────────────────────────────────────────────
+const C={
+  myrtlebeach:'#0B7B87',obx:'#5C6BC0',virginiabeach:'#2E7D9E',hiltonhead:'#4A7C59',
+  charleston:'#9C4A9C',oceancity:'#C0392B',panamacity:'#D4820A',gulfshores:'#1B7FC4',
+  gatlinburg:'#7B5E3D',orlando:'#8B3A3A',cancun:'#1A7F6E',pinehurst:'#5C4033'
+};
+
+const BRIGHT={
+  myrtlebeach:'#3FBFC4',obx:'#7E8FE0',virginiabeach:'#4AAFD0',hiltonhead:'#70A878',
+  charleston:'#C070C0',oceancity:'#E05050',panamacity:'#F0A030',gulfshores:'#40A0E8',
+  gatlinburg:'#A8805A',orlando:'#C06060',cancun:'#40A890',pinehurst:'#906050'
+};
+
+// ── DESTINATION NAMES ──────────────────────────────────────────────────────
+const DN={
+  myrtlebeach:'Myrtle Beach',obx:'Outer Banks',virginiabeach:'Virginia Beach',
+  hiltonhead:'Hilton Head Island',charleston:'Charleston',oceancity:'Ocean City, MD',
+  panamacity:'Panama City Beach',gulfshores:'Gulf Shores & Orange Beach',
+  gatlinburg:'Gatlinburg / Pigeon Forge',orlando:'Orlando',cancun:'Cancún & Riviera Maya',
+  pinehurst:'Pinehurst / Sandhills'
+};
+
+// ── COMP SETS by origin × season ──────────────────────────────────────────
+// Note on origin design: Midwest is modeled as a DRIVE market (Ohio, Indiana,
+// Michigan, Illinois households driving 10-14hrs), consistent with Myrtle Beach's
+// documented feeder-market history, not a fly market. Mid-Atlantic (drive) and
+// Northeast (fly) are split because they genuinely cross-shop different alternatives.
+const COMPSETS={
+  se_drive:{
+    summer:{
+      comps:['obx','virginiabeach','hiltonhead','gatlinburg'],
+      groups:{
+        'Carolina & Virginia Beach Rivals':['obx','virginiabeach','hiltonhead'],
+        'Mountain Family Alternative':['gatlinburg']
+      }
+    },
+    golf:{
+      comps:['hiltonhead','pinehurst'],
+      groups:{
+        'Golf-Specific Rivals':['hiltonhead','pinehurst']
+      }
+    },
+    shoulder_fall:{
+      comps:['hiltonhead','charleston'],
+      groups:{
+        'Upscale SE Rivals':['hiltonhead','charleston']
+      }
+    },
+    winter:{
+      comps:['gatlinburg','orlando'],
+      groups:{
+        'Holiday & Sun Alternatives':['gatlinburg','orlando']
+      }
+    }
+  },
+  midatlantic_drive:{
+    summer:{
+      comps:['oceancity','virginiabeach','obx'],
+      groups:{
+        'Regional Beach Rivals':['oceancity','virginiabeach'],
+        'Southern Stretch':['obx']
+      }
+    },
+    golf:{
+      comps:['pinehurst'],
+      groups:{
+        'Golf-Specific Rival':['pinehurst']
+      }
+    },
+    shoulder_fall:{
+      comps:['charleston','hiltonhead'],
+      groups:{
+        'Upscale Coastal Rivals':['charleston','hiltonhead']
+      }
+    }
+  },
+  ne_fly:{
+    summer:{
+      comps:['hiltonhead','cancun'],
+      groups:{
+        'Upscale Fly Rival':['hiltonhead'],
+        'International Stretch':['cancun']
+      }
+    },
+    golf:{
+      comps:['hiltonhead'],
+      groups:{
+        'Golf-Specific Rival':['hiltonhead']
+      }
+    },
+    winter:{
+      comps:['orlando','cancun'],
+      groups:{
+        'Sun Escape Rivals':['orlando','cancun']
+      }
+    }
+  },
+  midwest:{
+    summer:{
+      comps:['gatlinburg','panamacity','gulfshores','obx'],
+      groups:{
+        'Mountain Family Alternative':['gatlinburg'],
+        'Gulf Coast Rivals':['panamacity','gulfshores'],
+        'Stretch East Coast':['obx']
+      }
+    },
+    golf:{
+      comps:['pinehurst','hiltonhead'],
+      groups:{
+        'Golf-Specific Rivals':['pinehurst','hiltonhead']
+      }
+    },
+    shoulder_fall:{
+      comps:['gatlinburg','gulfshores'],
+      groups:{
+        'Value Shoulder-Season Rivals':['gatlinburg','gulfshores']
+      }
+    },
+    winter:{
+      comps:['orlando'],
+      groups:{
+        'Theme Park Escape':['orlando']
+      }
+    }
+  },
+  canada:{
+    summer:{
+      comps:['oceancity','virginiabeach','cancun','obx'],
+      groups:{
+        'Regional Drive/Fly Beach':['oceancity','virginiabeach'],
+        'Sun Escape & Stretch':['cancun','obx']
+      }
+    },
+    golf:{
+      comps:['hiltonhead','pinehurst'],
+      groups:{
+        'Golf-Specific Rivals':['hiltonhead','pinehurst']
+      }
+    },
+    winter:{
+      comps:['hiltonhead','charleston','cancun','orlando'],
+      groups:{
+        'Golf & Snowbird Rivals':['hiltonhead','charleston'],
+        'Sun & Luxury Escape':['cancun','orlando']
+      }
+    }
+  }
+};
+
+// ── SWOT DATA ──────────────────────────────────────────────────────────────
+const SWOTS={
+  se_drive:{
+    summer:{
+      obx:{
+        idx:5,
+        tags:'Carolina rivals · Beach · Drive distance',
+        s:['Myrtle Beach\'s density of boardwalk, dining, mini-golf, and nightlife gives families more to do on a rainy day than OBX\'s spread-out villages','Lodging supply is vastly larger — Myrtle Beach\'s 157,000+ accommodation units dwarf OBX\'s inventory, keeping prices more predictable in peak weeks','Direct beach access from nearly any hotel is easier — OBX\'s barrier-island geography means longer drives between towns','Myrtle Beach\'s attractions (SkyWheel, Broadway at the Beach, live theater) give non-beach days a real answer OBX largely lacks'],
+        w:['OBX\'s undeveloped, dune-backed beaches feel genuinely wilder and less commercial — a real differentiator for travelers tired of boardwalk crowds','Cape Hatteras National Seashore and wild horses on Corolla\'s 4x4 beaches are unique experiences no Myrtle Beach product replicates','OBX\'s slower, cottage-community pace appeals to families specifically seeking the anti-Myrtle-Beach experience','Charlotte and Raleigh drive times to OBX are comparable to Myrtle Beach, so access isn\'t a deciding factor either way'],
+        o:['Position Myrtle Beach\'s breadth of paid attractions as the answer for families whose kids get bored on OBX\'s quieter beaches after day three','Target OBX loyalists aging into a stage where boardwalk entertainment and golf matter more than solitude','Myrtle Beach\'s lower average nightly rate is a real value argument against OBX\'s increasingly premium cottage rental market'],
+        t:['OBX\'s "Outer Banks Promise" stewardship branding is building a loyal, higher-income repeat visitor base that values restraint over amenities','Growing national press coverage is elevating OBX\'s discovery appeal among younger families','OBX\'s Long-Range Tourism Management Plan signals a destination playing a patient, quality-over-volume game that could out-position Myrtle Beach with higher-spend travelers over time'],
+        take:'Myrtle Beach wins on convenience, density of things to do, and value — the drive-market family that wants built-in entertainment and predictable pricing finds more of it here. OBX wins with the family actively seeking fewer crowds and more nature. The two destinations are increasingly serving different psychographics within the same Carolina drive market, not fighting over the same traveler.'
+      },
+      virginiabeach:{
+        idx:-10,
+        tags:'Carolina & Virginia rivals · Beach · Family',
+        s:['Myrtle Beach\'s Grand Strand offers 60 continuous miles and 14 distinct communities, giving repeat visitors more variety across multiple trips than Virginia Beach\'s single oceanfront corridor','Golf density is unmatched — Myrtle Beach\'s 90+ courses give it a category Virginia Beach cannot credibly compete in','Myrtle Beach\'s attraction ecosystem (live theater, water parks, amusement piers) is broader and more established','Value positioning is stronger — Myrtle Beach\'s stay-longer offers directly counter rising Virginia Beach rates'],
+        w:['Virginia Beach has recently drawn fresh national travel-press attention, a level of momentum Myrtle Beach hasn\'t recently matched','New investment is aggressive and visible — a major private wave-pool development gives Virginia Beach a genuinely novel, shareable attraction','Virginia Beach\'s ViBe Creative District (murals, galleries, art walks) gives it a cultural credibility and "cool factor" Myrtle Beach\'s brand hasn\'t built','Shorter drive for the DC/Richmond/Northern Virginia segment of the drive market gives Virginia Beach a real access edge for that specific audience'],
+        o:['Myrtle Beach\'s expanding live entertainment slate is a direct answer to Virginia Beach\'s new-attraction momentum','Position golf and multi-day itinerary variety as the reasons a Myrtle Beach trip lasts longer and returns more visits than a Virginia Beach weekend','Target Virginia Beach visitors who\'ve done the boardwalk and want more resort variety and golf on their next trip'],
+        t:['Virginia Beach\'s marketing momentum, backed by high-profile investment and national recognition, is building brand heat','Expanding sports/cultural calendar are giving Virginia Beach new reasons to visit beyond the traditional beach week','If Virginia Beach continues attracting splashy private investment, the perception gap between "established value beach" and "next big beach" could widen against Myrtle Beach'],
+        take:'This is Myrtle Beach\'s closest and most uncomfortable rivalry in the drive market right now. Virginia Beach is having a genuine moment — national press, major private investment, a rising cultural profile — while Myrtle Beach still wins on scale, golf, and value. The momentum story currently favors Virginia Beach, but the fundamentals still favor Myrtle Beach.'
+      },
+      hiltonhead:{
+        idx:-15,
+        tags:'Carolina rivals · Premium beach · Family volume',
+        s:['Myrtle Beach is dramatically more affordable — Hilton Head\'s resort-community pricing puts it out of reach for a large share of the drive-market family budget','Myrtle Beach\'s attraction density (boardwalk, water parks, amusements, live shows) gives kids far more to do than Hilton Head\'s quieter, nature-oriented villas','Golf course volume favors Myrtle Beach — 90+ courses vs. Hilton Head\'s smaller but more exclusive set','Myrtle Beach\'s nightlife and dining variety is broader and more accessible to a range of budgets'],
+        w:['Hilton Head\'s brand positioning and Audubon-certified sustainability credentials give it a premium, protected-nature identity Myrtle Beach\'s commercial boardwalk brand can\'t claim','Hilton Head\'s golf is more prestigious — its championship courses (Harbour Town, host of the RBC Heritage) carry a cachet Myrtle Beach\'s volume-golf model doesn\'t match','The island\'s planned-community layout (no billboards, low-rise development, extensive bike trails) reads as more upscale and better managed to design-conscious travelers','Hilton Head is consistently named among America\'s favorite islands by major travel publications'],
+        o:['Position Myrtle Beach as the family-volume, value-golf alternative for travelers priced out of Hilton Head\'s villa rental market','Target Hilton Head repeat visitors whose growing families have outgrown quiet villa stays and want more built-in entertainment','Emphasize Myrtle Beach\'s broader golf pricing tiers as the practical way to play more rounds per trip'],
+        t:['Hilton Head\'s continued investment in its national marketing signals a serious push to grow its premium visitor base further, which could pull higher-spend golf travelers away from Myrtle Beach','The RBC Heritage PGA Tour stop keeps Hilton Head in front of exactly the golf-traveler audience Myrtle Beach also targets, at a prestige level Myrtle Beach doesn\'t reach','Hilton Head\'s sustainability-forward brand is well-timed for a market increasingly sensitive to overdevelopment and environmental messaging'],
+        take:'Hilton Head and Myrtle Beach serve different price points of the same Carolina beach decision. Myrtle Beach wins decisively on value and volume; Hilton Head wins on prestige and design. The strategic risk for Myrtle Beach is family and golf travelers trading up as their budgets grow — a segment Myrtle Beach needs a premium-tier answer for.'
+      },
+      gatlinburg:{
+        idx:20,
+        tags:'Mountain alternative · Family · Non-beach',
+        s:['Myrtle Beach offers the beach experience entirely unavailable in landlocked Gatlinburg/Pigeon Forge — for a family set on ocean and sand, there\'s no substitute','Myrtle Beach\'s 60-mile Grand Strand gives multi-day trips more geographic variety than the compact Gatlinburg-Pigeon Forge-Sevierville corridor','Summer heat and humidity are comparable, but Myrtle Beach\'s ocean breeze and water activities offer more relief options than the Smokies\' valley towns','Myrtle Beach\'s lodging supply and price flexibility is broader than the increasingly booked-out cabin market in peak Smoky Mountain season'],
+        w:['Dollywood is a genuine draw with no Myrtle Beach equivalent — regularly voted among the top amusement parks in the U.S., beating major national theme park brands outright','The Great Smoky Mountains National Park (America\'s most-visited national park) gives Gatlinburg a bucket-list natural asset Myrtle Beach\'s coastline can\'t replicate','Cabin rentals with hot tubs and mountain views offer a different kind of family togetherness that resonates strongly with the same Southeast drive-market families','Gatlinburg/Pigeon Forge\'s multi-generational return-visit culture rivals Myrtle Beach\'s own loyalty base'],
+        o:['Target families who\'ve done Gatlinburg\'s cabin-and-Dollywood trip and want the beach chapter next — position Myrtle Beach as the natural complementary trip, not a competing one','Myrtle Beach\'s golf, boardwalk nightlife, and live theater scene offer an entertainment-dense alternative to Gatlinburg\'s more nature-and-theme-park model','Leverage the fact that Myrtle Beach and the Smokies are both major Southeast/Midwest drive destinations often cross-shopped in the same vacation-planning cycle'],
+        t:['Dollywood\'s continued investment and record attendance keep pulling family vacation dollars toward the mountains, particularly from the Midwest and Ohio Valley feeder markets Myrtle Beach also relies on','Gatlinburg\'s cabin rental model, with private pools and mountain views, increasingly rivals oceanfront condos on "wow factor" for family photos and social media','The National Park brand carries an inherent prestige and educational framing that resonates with parents in a way a beach boardwalk trip sometimes doesn\'t'],
+        take:'Myrtle Beach wins clearly for families who want the ocean — that\'s a non-negotiable for a meaningful share of the market. But Gatlinburg/Pigeon Forge is not a marginal alternative; it\'s a well-funded, Dollywood-anchored competitor pulling from the same drive-market household budget. These two destinations often aren\'t competing for the same trip so much as splitting a family\'s annual vacation calendar.'
+      }
+    },
+    golf:{
+      hiltonhead:{
+        idx:-10,
+        tags:'Golf-specific · Prestige vs. volume',
+        s:['Myrtle Beach\'s far larger golf course inventory (90+ courses vs. Hilton Head\'s smaller set) gives golf groups more variety and more affordable tee time options across a multi-day golf trip','Myrtle Beach\'s pricing on both golf and lodging is significantly more accessible for value-focused golf groups','Myrtle Beach\'s broader dining and entertainment scene gives non-golfing travel companions more to do between rounds','Group golf trip logistics (large condo blocks, golf packages) are a more established, purpose-built product in Myrtle Beach than in Hilton Head'],
+        w:['Hilton Head\'s golf prestige is real — Harbour Town Golf Links and the RBC Heritage PGA Tour stop give it a credibility Myrtle Beach\'s volume-golf model doesn\'t match','Hilton Head\'s sustainability-branded, design-conscious positioning strongly appeals to the affluent golf traveler','Hilton Head\'s wellness and spa resort infrastructure is more developed, appealing to the growing wellness-adjacent golf traveler','Course condition consistency: Hilton Head\'s island climate produces outstanding, well-maintained conditions'],
+        o:['Myrtle Beach\'s golf package marketing should lean harder into the value-per-round argument against Hilton Head\'s premium pricing for golf groups specifically','Target Hilton Head golf travelers priced out by rising green fees who want more rounds for the same trip budget','Position the Grand Strand\'s entertainment calendar as a stronger non-golf-day option than Hilton Head\'s quieter villa communities'],
+        t:['Hilton Head\'s continued national campaign investment is explicitly designed to grow high-value visitor share, which could pull premium golf travel away from Myrtle Beach','The RBC Heritage keeps Hilton Head\'s golf prestige in the news annually in a way Myrtle Beach\'s golf marketing doesn\'t match','Sustainability-forward positioning is increasingly resonant with higher-income golf travelers, a demographic Myrtle Beach\'s volume-first brand competes for less effectively'],
+        take:'Golf group volume favors Myrtle Beach; golf prestige favors Hilton Head. For value-conscious golf groups, Myrtle Beach wins on rounds-per-dollar. For premium golf travelers, Hilton Head\'s prestige and quieter setting pull ahead. Myrtle Beach\'s opportunity is doubling down on volume and value rather than trying to out-prestige Hilton Head directly.'
+      },
+      pinehurst:{
+        idx:-20,
+        tags:'Golf heritage · Bucket list · Prestige',
+        s:['Myrtle Beach\'s 90+ courses offer more variety and price-point diversity than Pinehurst\'s concentrated, higher-cost offerings','Beach as a non-golf activity gives non-golfers a genuine alternative that doesn\'t exist in the Sandhills','Hotel and resort value: a golf trip to Myrtle Beach costs meaningfully less per night for comparable course access','Year-round playability — Myrtle Beach\'s coastal climate runs warmer in shoulder months than Pinehurst\'s inland location'],
+        w:['Pinehurst No. 2 is a legitimate bucket-list course — hosting multiple U.S. Opens (including the 2024 men\'s and women\'s championships) creates a prestige signal Myrtle Beach cannot replicate','The pure golf trip narrative belongs to Pinehurst — serious golfers who want to be surrounded by golf history and culture, not beach tourism','Pinehurst\'s course quality at the top end genuinely exceeds Myrtle Beach\'s best offerings, and continued investment (the new Pinehurst No. 10/11 "Sandmines" development) is extending that lead','Golf travel media consistently ranks Pinehurst above Myrtle Beach, influencing the serious golfer who researches extensively before booking','Pinehurst is legitimately branded and marketed as the "Home of American Golf," a claim with real historical grounding (Donald Ross legacy, USGA Golf House, World Golf Hall of Fame)'],
+        o:['Target the group golf trip where non-golfers are coming — the bring-the-whole-gang message is Myrtle Beach\'s strongest differentiator','Value positioning: more rounds plus beach access plus entertainment for the same cost as fewer Pinehurst rounds is a genuine, quantifiable argument','Target "Pinehurst lapsed" golfers — those who\'ve done the pilgrimage and want volume and value over prestige on the next trip'],
+        t:['Pinehurst\'s 2024 U.S. Open hosting generated roughly two years of sustained media coverage that no Myrtle Beach marketing budget can counter','Pinehurst is actively expanding course inventory with new Gil Hanse and Coore & Crenshaw designs, further cementing its position as a premier golf pilgrimage destination','Golf travel media increasingly segments "bucket list" from "volume/value" destinations — Myrtle Beach is being slotted into the latter category'],
+        take:'Myrtle Beach trails Pinehurst decisively among serious single-purpose golfers, and that gap is not closing — it may be widening as Pinehurst continues to invest in new courses and rides its U.S. Open momentum. The winning strategy is to never compete for the pure golf pilgrim; instead, own the golf-plus-everything-else market where Pinehurst\'s isolation and higher price point become real limitations.'
+      }
+    },
+    shoulder_fall:{
+      hiltonhead:{
+        idx:0,
+        tags:'Upscale rival · Fall · Couples · Culture',
+        s:['Myrtle Beach\'s fall calendar — events, concerts, restaurant promotions — provides programming that Hilton Head\'s quieter shoulder season lacks','Hotel deals in fall are aggressive — Myrtle Beach\'s marketing heavily promotes fall packages that undercut Hilton Head','Beach crowds drop significantly in fall while weather remains excellent, and Myrtle Beach\'s broader entertainment and dining scene gives couples more evening options'],
+        w:['Hilton Head\'s shoulder-season character — quieter, more elegant, nature-focused — actually appeals most to the income segment Myrtle Beach is trying to attract','Hilton Head\'s cycling, kayaking, and eco-tour infrastructure is well-suited to the active fall traveler','Hilton Head\'s Lowcountry dining and oyster roast season creates a distinct fall culinary identity Myrtle Beach doesn\'t have'],
+        o:['Fall couples campaign emphasizing value and beach without the summer crowd','Event-based marketing for fall programming that pulls SE couples away from Hilton Head\'s default positioning'],
+        t:['Hilton Head has been investing in its fall cultural programming (seafood festivals, arts events) specifically to grow shoulder season','Charleston\'s fall tourism boom pulls SE couples toward a Hilton Head + Charleston combo trip'],
+        take:'Fall is one of Myrtle Beach\'s genuine strategic opportunities against Hilton Head — prices are compelling and crowds are manageable. The gap is in programming and cultural event marketing. Invest in fall event density and market it aggressively to SE couples who default to Hilton Head\'s perceived sophistication.'
+      },
+      charleston:{
+        idx:-20,
+        tags:'Cultural rival · Shoulder season · Couples',
+        s:['Myrtle Beach\'s beach access and golf give shoulder-season travelers an active outdoor option Charleston\'s walking-tour-and-restaurant model doesn\'t replicate','Myrtle Beach\'s lodging costs remain meaningfully lower than Charleston\'s increasingly premium downtown hotel market','Myrtle Beach\'s stay-longer value promotions offer direct value Charleston\'s high-demand, high-occupancy market doesn\'t need to match','Myrtle Beach is a simpler, more relaxed trip for travelers who don\'t want a packed cultural itinerary'],
+        w:['Charleston\'s culinary and historic-architecture reputation is a different tier entirely — regularly voted a top U.S. city by major travel-reader polls','Charleston\'s downtown walkability and boutique hotel scene appeal strongly to the couples and shoulder-season traveler Myrtle Beach struggles to attract at that spending level','Charleston\'s deliberate pivot toward higher-spending, longer-staying visitors shows a market willing to pay a premium Myrtle Beach hasn\'t captured','Charleston\'s Gullah Geechee heritage tourism and historic depth give it a story Myrtle Beach\'s boardwalk-and-golf identity can\'t tell'],
+        o:['Position Myrtle Beach\'s golf and beach combination as the active complement to a Charleston culture-and-food trip for travelers doing both South Carolina destinations in one visit','Target couples who find Charleston increasingly crowded and expensive and want a more relaxed, lower-cost coastal alternative in the same state','Myrtle Beach\'s expanding culinary and craft beverage scene is an underleveraged asset that could narrow the gap with Charleston\'s food reputation over time'],
+        t:['Charleston\'s deliberate high-value, lower-volume strategy is working, exactly the trend line Myrtle Beach needs but currently lacks','Charleston\'s overtourism management efforts, while framed as resident protection, also reinforce an exclusive, in-demand brand image that indirectly benefits its premium positioning','As Charleston\'s downtown reaches capacity, some of that spillover demand could go to Myrtle Beach — or just as easily to Wilmington, Savannah, or other Southeast alternatives'],
+        take:'Charleston and Myrtle Beach aren\'t really fighting for the same traveler — Charleston has successfully claimed the premium cultural-getaway position in South Carolina, while Myrtle Beach owns value and volume. The risk isn\'t losing head-to-head bookings; it\'s that Charleston\'s example shows a demand curve Myrtle Beach hasn\'t yet tapped: shoulder-season travelers willing to spend meaningfully more for a differentiated experience.'
+      }
+    },
+    winter:{
+      gatlinburg:{
+        idx:10,
+        tags:'Mountain alternative · Holiday season · Family value',
+        s:['Myrtle Beach\'s winter golf offers year-round outdoor variety that Gatlinburg\'s cooler winter mountain climate can\'t match for beach-focused travelers','Myrtle Beach\'s larger lodging supply keeps holiday-season pricing more flexible than Gatlinburg\'s increasingly premium and often sold-out cabin market during the holidays','Myrtle Beach\'s value-forward winter promotions are a strong direct counter to Gatlinburg\'s rising cabin rates in peak holiday season'],
+        w:['Gatlinburg\'s holiday lights and Dollywood\'s long-running Christmas festival create a distinct winter identity Myrtle Beach hasn\'t built to the same degree — this is a genuine, calendar-anchored draw with no equivalent','Dollywood\'s continued expansion and record attendance keep reinforcing Gatlinburg as a year-round, not just summer, family destination','The rise of hot-tub cabin rentals as a distinct product category is pulling some holiday-season family travel that might otherwise have gone to a beach condo','Cabin rentals with private hot tubs offer a cozy, weather-appropriate winter product that resonates emotionally in cold months in a way beach condos don\'t'],
+        o:['Myrtle Beach\'s golf packages are the clearest winter differentiator against Gatlinburg — golf-focused marketing should lean into winter playability that mountain courses can\'t match','Target Gatlinburg\'s Dollywood-season visitors for an early-spring beach add-on trip, positioning the two destinations as complementary rather than competitive','Myrtle Beach\'s value promotions are a strong direct counter to Gatlinburg\'s rising holiday cabin rates'],
+        t:['Gatlinburg\'s holiday lights season continues to sell out and grow in premium pricing, showing durable, even strengthening winter demand','Dollywood\'s continued record attendance keeps reinforcing Gatlinburg as a year-round family destination'],
+        take:'Myrtle Beach\'s golf and value positioning give it a real edge over Gatlinburg for winter travelers focused on outdoor activity and cost, but Gatlinburg has built a genuinely strong holiday-lights anchor that Myrtle Beach doesn\'t currently match with an equivalent seasonal hook of its own.'
+      },
+      orlando:{
+        idx:0,
+        tags:'Theme park alternative · Holiday · Family & couples',
+        s:['Myrtle Beach\'s winter golf and value pricing are generally more accessible than Orlando\'s premium, less seasonally discounted theme park model','Myrtle Beach offers a slower, lower-stimulation pace that appeals to travelers burned out on theme park lines and crowds','Golf is a genuine category advantage — Orlando has some golf product but nothing at Myrtle Beach\'s scale or price accessibility'],
+        w:['Orlando\'s theme park ecosystem is an entertainment category Myrtle Beach cannot compete with directly — it\'s simply a different kind of vacation','Orlando continues to draw record visitor numbers and invest heavily in new attractions and holiday programming','Orlando\'s direct flight access from nearly every major U.S. and Canadian city makes it more universally reachable than Myrtle Beach\'s more regional airport profile'],
+        o:['Position Myrtle Beach as the lower-cost, lower-stress holiday complement to an Orlando theme park trip for the same multi-generational family, rather than a head-to-head competitor','Target theme-park-fatigued repeat Orlando visitors — families who\'ve done the parks multiple times and want a calmer beach-and-golf trip instead'],
+        t:['Orlando\'s record-breaking visitor growth and continued attraction investment keep it dominant in family vacation mindshare nationally','Orlando\'s holiday programming (parades, seasonal park overlays) is well-funded and heavily marketed'],
+        take:'Myrtle Beach and Orlando aren\'t really substitutes for the same trip — one is theme parks, the other is beach and golf. The opportunity is capturing Orlando-fatigued repeat visitors, not competing on Orlando\'s home turf during the holidays.'
+      }
+    }
+  },
+  midatlantic_drive:{
+    summer:{
+      oceancity:{
+        idx:15,
+        tags:'Regional beach rival · Family · Boardwalk',
+        s:['Myrtle Beach\'s golf inventory (90+ courses) is an entire category Ocean City, MD cannot compete in','Myrtle Beach\'s Grand Strand offers 60 miles and 14 communities versus Ocean City\'s single 10-mile stretch, giving multi-day trips more variety','Myrtle Beach\'s live entertainment scene (theater, concerts, year-round programming) is more developed than Ocean City\'s more seasonal boardwalk offering','Warmer, longer swimmable season gives Myrtle Beach a real edge for families wanting more ocean time per trip'],
+        w:['Ocean City is a genuine drive-market default for DC, Baltimore, and Philadelphia — closer, cheaper in gas and time, and deeply embedded in generational family tradition for the Mid-Atlantic','Ocean City\'s boardwalk has a classic Americana charm and nostalgia factor that resonates strongly with repeat Mid-Atlantic visitors','Ocean City recently celebrated a major anniversary milestone, reinforcing a long, storied identity Myrtle Beach\'s more recently developed brand doesn\'t carry in this market'],
+        o:['Position Myrtle Beach as the "bigger, longer, warmer" version of the classic boardwalk beach trip for Mid-Atlantic families ready to go further for more variety','Golf is the clearest differentiator to lead with for Mid-Atlantic travelers who\'ve maxed out Ocean City\'s single-strip layout','Target Ocean City repeat visitors whose trip length or activity needs have outgrown a 10-mile beach town'],
+        t:['Ocean City\'s deep multi-generational loyalty in the DC/Baltimore/Philadelphia corridor is difficult to displace — many families have never considered an alternative','Zero incremental flight cost and shorter drive times keep Ocean City the practical default for spontaneous or budget-driven Mid-Atlantic trips'],
+        take:'Myrtle Beach wins on scale, golf, and variety for Mid-Atlantic drive-market travelers willing to go further. Ocean City wins on proximity, cost, and deep-rooted family tradition. The opportunity for Myrtle Beach is capturing Ocean City loyalists on their "step up" trip — when they want more than a boardwalk weekend can offer.'
+      },
+      virginiabeach:{
+        idx:-5,
+        tags:'Regional beach rival · Family · Momentum',
+        s:['Myrtle Beach\'s golf inventory and broader attraction ecosystem give it more built-in activity variety than Virginia Beach\'s oceanfront-centered offering','Myrtle Beach\'s value pricing, especially with current stay-longer promotions, is more accessible than Virginia Beach\'s rising rates','Longer, more established Grand Strand community network gives repeat visitors more reasons to return to different parts of Myrtle Beach across multiple trips'],
+        w:['Virginia Beach is shorter and cheaper to reach for the DC/Northern Virginia portion of this origin market, a meaningful access advantage','Virginia Beach\'s fresh national attention and new wave-pool development give it a differentiated draw Myrtle Beach doesn\'t currently match','Virginia Beach\'s cultural programming is building a younger, more design-forward brand identity'],
+        o:['Myrtle Beach\'s golf and multi-community variety are strong counters to Virginia Beach\'s single-corridor layout for families planning a longer stay','Target Virginia Beach visitors who want more resort and golf variety on a repeat Mid-Atlantic beach trip'],
+        t:['Virginia Beach\'s current momentum — new investment, national press, expanding sports/cultural calendar — is a genuine threat to its regional standing versus Myrtle Beach right now'],
+        take:'This is a genuinely close competitive matchup in the Mid-Atlantic drive market. Myrtle Beach still wins on scale, golf, and value, but Virginia Beach is having a real moment of national attention and investment that Myrtle Beach needs to answer with its own visible new-attraction story, not just value messaging.'
+      },
+      obx:{
+        idx:5,
+        tags:'Southern stretch · Beach · Quieter alternative',
+        s:['Myrtle Beach\'s far larger lodging and dining infrastructure gives Mid-Atlantic families more predictable pricing and availability than OBX\'s more limited inventory in peak weeks','Golf and built-in entertainment variety are unmatched by OBX\'s quieter, more spread-out village model','Myrtle Beach is a similar or shorter drive from much of the Mid-Atlantic corridor than the more remote parts of the Outer Banks'],
+        w:['OBX\'s undeveloped beaches and Cape Hatteras National Seashore offer an escape-from-the-city feel that resonates strongly with DC-area travelers seeking quiet','The Outer Banks\' cottage rental culture and multi-generational family tradition run deep in the Mid-Atlantic, especially Virginia and Maryland households','OBX\'s stewardship-focused branding and slower pace increasingly appeal to travelers reacting against more commercial beach destinations'],
+        o:['Position Myrtle Beach\'s reliability and built-in entertainment as the lower-risk option for families who don\'t want OBX\'s more variable weather-and-access logistics','Target OBX families ready for a change of pace toward more amenities and golf on their next Mid-Atlantic beach trip'],
+        t:['OBX\'s deepening stewardship and quality-over-volume brand positioning is cultivating exactly the kind of loyal, higher-spend visitor base Myrtle Beach also wants to attract'],
+        take:'For the Mid-Atlantic traveler choosing between a livelier resort trip and a quieter cottage escape, Myrtle Beach and OBX split the difference cleanly along those lines. Myrtle Beach\'s advantage is consistency and built-in things to do; OBX\'s advantage is authenticity and escape.'
+      }
+    },
+    golf:{
+      pinehurst:{
+        idx:-5,
+        tags:'Golf-specific · Mid-Atlantic drive · Pinehurst heritage',
+        s:['Myrtle Beach\'s volume and variety at lower cost — Mid-Atlantic golfers planning multi-round trips find Myrtle Beach\'s math more favorable','Beach adds non-golf day options for partners and mixed groups','Drive time from DC/MD/PA to Myrtle Beach and to Pinehurst is comparable — no access disadvantage','Spring coastal weather: Myrtle Beach often plays better than Pinehurst in early spring when Sandhills courses are still recovering from winter'],
+        w:['Pinehurst No. 2 is a legitimate pilgrimage for serious Mid-Atlantic golfers, and it\'s meaningfully closer to this origin market than to most others, sharpening the comparison','Pinehurst\'s Village character and golf-only atmosphere appeals to Mid-Atlantic golfers who want a pure golf experience','Pinehurst\'s 2024 U.S. Open coverage has significantly elevated its awareness in Mid-Atlantic markets specifically, given its proximity'],
+        o:['Post-pilgrimage segment: Mid-Atlantic golfers who\'ve done Pinehurst are natural Myrtle Beach recruits for volume/value trips','Corporate golf outing segment where Pinehurst\'s pricing is prohibitive for large groups'],
+        t:['Pinehurst\'s new course additions will extend its offer and further differentiate it from Myrtle Beach','Pinehurst\'s proximity to Myrtle Beach (roughly 4 hours) means golf travelers could do both — but tend to choose Pinehurst over Myrtle Beach if forced to pick just one'],
+        take:'Myrtle Beach and Pinehurst serve different golf traveler needs within the Mid-Atlantic drive market, and Pinehurst\'s geographic proximity to this specific origin sharpens the comparison more than in other markets. Target those who want round-count and value over legacy prestige — they are different travelers and Myrtle Beach\'s product is genuinely better for them.'
+      }
+    },
+    shoulder_fall:{
+      charleston:{
+        idx:-15,
+        tags:'Cultural rival · Shoulder season · Couples',
+        s:['Myrtle Beach\'s golf and beach access give shoulder-season Mid-Atlantic couples an active outdoor option Charleston\'s walking-and-dining model doesn\'t match','Myrtle Beach remains meaningfully more affordable than Charleston\'s increasingly premium hotel market','Myrtle Beach\'s current stay-longer value promotions offer a compelling reason to choose it over a pricier Charleston weekend'],
+        w:['Charleston\'s culinary and historic reputation carries serious weight with the well-traveled Mid-Atlantic couples market — it\'s a globally recognized top-tier city destination','Charleston\'s deliberate high-value visitor strategy shows real success attracting exactly the demographic Myrtle Beach wants more of','DC-to-Charleston flight and drive access is comparable to DC-to-Myrtle-Beach, so Charleston isn\'t meaningfully harder to reach'],
+        o:['Position Myrtle Beach\'s golf and beach combination as a complementary, more relaxed add-on to a Charleston culture trip for Mid-Atlantic travelers doing a South Carolina swing','Target Charleston-fatigued couples seeking a lower-cost, lower-intensity coastal alternative for their next South Carolina visit'],
+        t:['Charleston\'s continued success attracting high-spend visitors sets a demand benchmark for premium shoulder-season travel that Myrtle Beach hasn\'t yet captured'],
+        take:'Charleston and Myrtle Beach aren\'t really fighting for the same Mid-Atlantic traveler — Charleston owns the premium cultural weekend, Myrtle Beach owns value and golf. The lesson from Charleston\'s trajectory is that Mid-Atlantic shoulder-season travelers will pay significantly more for a differentiated experience.'
+      },
+      hiltonhead:{
+        idx:-5,
+        tags:'Golf & premium rival · Shoulder season',
+        s:['Myrtle Beach\'s golf volume and pricing accessibility give value-conscious Mid-Atlantic golf groups more rounds for the money','Myrtle Beach\'s broader entertainment and dining scene gives non-golfing companions more shoulder-season options'],
+        w:['Hilton Head\'s golf prestige and sustainability branding appeal strongly to the affluent DC-area shoulder-season traveler'],
+        o:['Lead with value-per-round messaging against Hilton Head\'s premium green fees for Mid-Atlantic golf groups','Target Hilton Head visitors whose group golf trip would stretch further, dollar for dollar, in Myrtle Beach'],
+        t:['Hilton Head\'s campaign investment and RBC Heritage visibility keep it top of mind for the exact affluent golf traveler Myrtle Beach also wants'],
+        take:'The Mid-Atlantic shoulder-season golf and couples traveler splits along income lines much as the drive market does: Myrtle Beach wins on value and volume, Hilton Head wins on prestige.'
+      }
+    }
+  },
+  ne_fly:{
+    summer:{
+      hiltonhead:{
+        idx:20,
+        tags:'NE Fly · Prestige · Price-sensitive · Family',
+        s:['Myrtle Beach\'s entertainment and activity variety far exceeds Hilton Head for NE families with teen/young adult children','Hotel pricing: Myrtle Beach is substantially less expensive — meaningful for NE families already paying premium airfare','Broadway at the Beach, the Boardwalk, and waterparks provide itinerary structure Hilton Head\'s quieter character doesn\'t','Flight accessibility: Myrtle Beach has expanded NE routes while Hilton Head requires connection through Atlanta or Charlotte'],
+        w:['NE families often see Hilton Head as the smarter and more sophisticated beach choice — Myrtle Beach carries a downscale perception in this market','Hilton Head\'s golf and cycling culture appeals to the active-adult NE family in a way Myrtle Beach\'s entertainment strip does not','Hilton Head\'s Lowcountry character provides a cultural tourism layer Myrtle Beach doesn\'t offer','NE families who want to impress socially find Hilton Head reads differently at the dinner party than Myrtle Beach'],
+        o:['Value math with airfare: for a NE family of four, Myrtle Beach\'s total cost advantage can be substantial for the same week','Teen/young adult activation: NE families with older kids who want more than bike paths and kayaking','Direct flight growth from NE to MYR reduces the connection advantage Hilton Head historically had'],
+        t:['As Charleston grows as a NE tourism destination, Hilton Head benefits from the Charleston extension trip — Myrtle Beach doesn\'t have an equivalent paired city'],
+        take:'Myrtle Beach can win NE families on value and entertainment but must actively fight its downscale perception in this market. The ROI argument (airfare plus hotel total cost) is the most compelling strategic tool — NE families are price-aware, and Myrtle Beach\'s entertainment advantage is only realized if they actually visit.'
+      },
+      cancun:{
+        idx:-20,
+        tags:'International sun escape · Fly market · Aspirational',
+        s:['No passport required — a meaningful simplification and cost advantage for NE families avoiding international travel logistics','Myrtle Beach\'s golf inventory gives it an activity category Cancún\'s all-inclusive beach model doesn\'t emphasize in the same way','Domestic pricing and no currency exchange simplifies trip planning'],
+        w:['Cancún and Riviera Maya offer guaranteed warm, sunny weather and Caribbean water quality that Myrtle Beach\'s Atlantic coastline cannot match','The region\'s shift toward a luxury positioning is winning over a more upscale traveler','All-inclusive pricing simplicity appeals strongly to families wanting one predictable total cost','From NYC, flight time to Cancún is comparable to Myrtle Beach, reducing the domestic convenience advantage','Growing direct flight connectivity from NE gateways is lowering the access barrier that used to favor domestic destinations'],
+        o:['Myrtle Beach\'s golf and no-passport convenience are the strongest counters to Cancún\'s appeal','Target NE travelers for whom Cancún\'s all-inclusive model feels passive — Myrtle Beach offers a more activity-driven alternative'],
+        t:['The Mexican Caribbean\'s continued repositioning toward luxury is actively converting the kind of higher-spend traveler Myrtle Beach also wants'],
+        take:'Cancún wins decisively on guaranteed warm weather and the psychological simplicity of all-inclusive pricing, and from NE gateways the domestic convenience argument that helps Myrtle Beach elsewhere is much weaker. Myrtle Beach\'s realistic path is the golf-plus-beach traveler and the no-passport family, not a head-on fight for the beach vacation dollar.'
+      }
+    },
+    golf:{
+      hiltonhead:{
+        idx:5,
+        tags:'NE Fly · Golf-specific · Prestige vs. value',
+        s:['Myrtle Beach\'s far larger and more affordable golf inventory gives NE golf groups more rounds per dollar, which matters more once airfare is added to the trip cost','Myrtle Beach\'s broader entertainment and dining scene gives non-golfing travel companions more options'],
+        w:['Hilton Head\'s golf prestige (Harbour Town, the RBC Heritage) carries real weight with NE golf travelers who research destinations extensively','Hilton Head\'s resort polish creates a more seamless golf-plus-luxury experience for a NE traveler already paying a premium to fly south'],
+        o:['Lead with value-per-round messaging for NE golf groups, an area where Myrtle Beach\'s scale advantage over Hilton Head is clear and defensible'],
+        t:['Hilton Head\'s campaign investment and PGA Tour visibility keep it in front of the affluent NE golf traveler'],
+        take:'For the value-focused majority of the NE golf traveler market, Myrtle Beach\'s scale wins. Hilton Head remains the aspirational, premium option for the smaller affluent segment.'
+      }
+    },
+    winter:{
+      orlando:{
+        idx:-5,
+        tags:'Theme park & sun escape · NE fly · Winter',
+        s:['Myrtle Beach\'s golf and beach combination offers a calmer, more outdoor-focused winter trip than Orlando\'s theme-park-centered model','Myrtle Beach\'s off-season value pricing is generally more accessible than Orlando\'s premium, less seasonally discounted structure'],
+        w:['Orlando offers considerably milder, more reliably warm winter weather than Myrtle Beach\'s cooler coastal off-season climate','Orlando\'s direct flight access from major NE gateways is well-established and heavily marketed'],
+        o:['Position Myrtle Beach as the calmer, golf-focused alternative for NE families who have already done Orlando\'s theme parks'],
+        t:['Orlando runs dedicated, well-funded seasonal campaigns specifically targeting NE winter-escape travelers'],
+        take:'Orlando\'s milder winter climate and NE marketing investment make it a real threat to Myrtle Beach\'s NE winter visitor base. Myrtle Beach\'s golf and calmer pace are its clearest differentiators against Orlando\'s theme-park intensity.'
+      },
+      cancun:{
+        idx:-25,
+        tags:'International sun escape · NE fly · Winter',
+        s:['Myrtle Beach requires no passport, offering a simpler winter-trip logistics package for NE travelers','Myrtle Beach\'s golf inventory and price accessibility remain a real category advantage for value-conscious extended-stay golfers'],
+        w:['Cancún and Riviera Maya\'s guaranteed warm winter weather is simply unmatched by Myrtle Beach\'s cooler off-season coastal climate — the single biggest factor for NE travelers seeking true winter escape','The region\'s luxury repositioning is successfully converting the affluent traveler segment, and all-inclusive pricing offers predictable costs that appeal strongly to winter travelers','From NYC and Boston, direct flight access to Cancún is excellent, removing the domestic-convenience advantage Myrtle Beach has elsewhere'],
+        o:['Myrtle Beach\'s golf infrastructure and no-passport convenience are real, defensible advantages worth continued direct investment in NE marketing'],
+        t:['This is one of Myrtle Beach\'s most serious competitive threats in the NE winter market — Cancún is actively, successfully converting exactly the traveler Myrtle Beach wants during its own off-season'],
+        take:'Myrtle Beach cannot offer guaranteed winter warmth, and Cancún is investing heavily to win NE winter travelers precisely when Myrtle Beach most needs demand. Golf infrastructure and no-passport convenience matter, but they don\'t address the core reason a NE traveler flies south in the first place.'
+      }
+    }
+  },
+  midwest:{
+    summer:{
+      gatlinburg:{
+        idx:10,
+        tags:'Mountain family alternative · Long drive · Beach vs. mountains',
+        s:['Myrtle Beach offers the ocean experience that landlocked Gatlinburg/Pigeon Forge cannot provide — for a Midwest family with the beach specifically in mind, there is no substitute','Myrtle Beach\'s Grand Strand gives multi-day trips more geographic variety than the compact Gatlinburg-Pigeon Forge-Sevierville corridor','Myrtle Beach\'s lodging supply is larger and less prone to the sellouts that increasingly affect peak-season Smoky Mountain cabin rentals'],
+        w:['Dollywood is a powerful, unique draw with no Myrtle Beach equivalent','The Great Smoky Mountains National Park gives Gatlinburg a bucket-list natural asset that resonates strongly with Midwest families, especially those from Ohio, Indiana, and Illinois who\'ve made it a generational tradition','Drive time from much of the Midwest (Ohio, Indiana, Kentucky) is often shorter to the Smokies than the full drive to Myrtle Beach','Cabin rentals with private hot tubs and mountain views offer a distinct, highly Instagrammable family experience that resonates with the same audience'],
+        o:['Myrtle Beach should lean into being the true beach alternative for Midwest families whose mountain-trip tradition has grown stale — a different kind of vacation, not a lesser one','Target Dollywood-loyal families for an alternating-year or complementary beach trip, positioning the two destinations as companions rather than rivals','Golf and boardwalk entertainment density give Myrtle Beach a stronger built-in-activity argument for families wanting more variety per trip'],
+        t:['Dollywood\'s continued investment and record attendance keep pulling Midwest family vacation dollars toward the mountains','The multi-generational, "we\'ve always gone to the Smokies" tradition among many Ohio Valley and Midwest families is difficult to disrupt','Gatlinburg\'s more central Midwest drive time gives it a meaningful access edge over Myrtle Beach for households in Ohio, Indiana, and western Pennsylvania specifically'],
+        take:'This is one of Myrtle Beach\'s most significant and durable Midwest rivalries. Gatlinburg/Pigeon Forge, anchored by Dollywood, has built deep generational loyalty among Midwest drive-market families that a beach trip has to actively compete against rather than assume it wins by default. Myrtle Beach\'s clearest edge is offering the one thing Gatlinburg fundamentally cannot: the ocean.'
+      },
+      panamacity:{
+        idx:5,
+        tags:'Gulf coast rival · Beach · Family repositioning',
+        s:['Myrtle Beach\'s golf inventory (90+ courses) is a category Panama City Beach\'s beach-and-attraction model doesn\'t match at the same scale','Myrtle Beach\'s brand stability contrasts favorably with Panama City Beach\'s still-unfolding effort to reposition away from a spring-break reputation','Myrtle Beach\'s more established live entertainment and dining infrastructure gives families more built-in options beyond the beach itself'],
+        w:['Panama City Beach\'s sugar-white sand and clearer Gulf water are a genuinely different, often more visually striking beach experience than Myrtle Beach\'s Atlantic coastline','Panama City Beach is actively repositioning toward family and eco-tourism, potentially converting some of its lingering spring-break reputation into a fresher, more family-safe image over the next several seasons','Warmer Gulf water temperatures extend the comfortable swimming season slightly longer than the Atlantic in shoulder months'],
+        o:['Myrtle Beach\'s stable, long-established family brand is a strength to lead with while Panama City Beach\'s repositioning is still proving itself to a skeptical family audience','Target Midwest families who remember Panama City Beach\'s spring-break reputation and haven\'t yet reconsidered it','Golf and entertainment variety are clear differentiators against Panama City Beach\'s more beach-and-attraction-park-focused product'],
+        t:['If Panama City Beach\'s pivot to family and eco-tourism succeeds, it could meaningfully close the family-safety perception gap that has favored Myrtle Beach','Panama City Beach\'s Gulf Coast sand and water clarity remain a genuine, hard-to-match visual and experiential draw for beach purists'],
+        take:'Myrtle Beach currently holds the edge as the more dependable, family-established beach choice for Midwest travelers, largely because Panama City Beach is still mid-transition away from its spring-break identity. That edge is not guaranteed to last — if the rebrand succeeds, Panama City Beach\'s superior sand and water could become a much more serious threat.'
+      },
+      gulfshores:{
+        idx:10,
+        tags:'Gulf coast rival · Beach · Family',
+        s:['Myrtle Beach\'s golf inventory and entertainment scene are more developed than Gulf Shores & Orange Beach\'s more nature-and-family-park-centered offering','Myrtle Beach\'s larger, more established lodging market offers more predictable summer availability and pricing','Myrtle Beach\'s 60-mile, 14-community Grand Strand gives repeat visitors more variety across multiple trips than Gulf Shores\' more compact 32-mile stretch'],
+        w:['Gulf Shores & Orange Beach is actively building a distinct lifestyle-and-character brand beyond generic beach messaging, differentiating it from commodity beach marketing','Gulf State Park and the Bon Secour National Wildlife Refuge give Gulf Shores a nature and ecotourism credibility that complements its beach offering','Record lodging revenue growth shows real, accelerating demand momentum','Growing entertainment districts give Gulf Shores/Orange Beach a growing built-in-attraction answer that narrows Myrtle Beach\'s entertainment-density advantage'],
+        o:['Myrtle Beach\'s scale and established entertainment infrastructure remain real advantages worth leading with against a still-growing Gulf Shores market','Golf is the clearest and most defensible differentiator against Gulf Shores\' more nature-focused positioning','Target Midwest and Southeast families for whom Gulf Shores requires a notably longer drive than Myrtle Beach from many Midwest metro areas'],
+        t:['Gulf Shores & Orange Beach\'s accelerating tourism investment and lodging revenue growth suggest a market gaining real momentum, not just steady-state performance'],
+        take:'Myrtle Beach still wins on scale, golf, and built-in entertainment density, but Gulf Shores & Orange Beach is a genuinely fast-growing competitor with a sharper, more differentiated lifestyle brand emerging. This is a rivalry to watch rather than dismiss — the gap is real today but narrowing.'
+      },
+      obx:{
+        idx:15,
+        tags:'Stretch alternative · Beach · Quieter escape',
+        s:['Myrtle Beach\'s scale, lodging predictability, and entertainment density give it a clear practical edge over OBX for most Midwest families, who are already committing to a long drive either way','Golf and boardwalk variety are significant differentiators against OBX\'s quieter, more spread-out village model','Myrtle Beach\'s more established tourism infrastructure reduces trip-planning risk for a family driving a full day or more from the Midwest'],
+        w:['OBX\'s wild, undeveloped beaches and national seashore offer a genuinely different, escape-from-everything experience that resonates with a specific segment of Midwest travelers seeking something less commercial'],
+        o:['Myrtle Beach\'s dramatically shorter effective drive time from most of the Midwest compared to the more remote parts of OBX is a strong practical argument worth leading with'],
+        t:['OBX\'s stewardship-focused branding is slowly building a devoted niche following that could include a small but growing share of Midwest travelers seeking something different from a typical beach trip'],
+        take:'For most Midwest families, Myrtle Beach\'s combination of shorter effective drive time, larger lodging inventory, and built-in entertainment makes it the more practical long-haul beach choice over OBX.'
+      }
+    },
+    golf:{
+      pinehurst:{
+        idx:-15,
+        tags:'Golf heritage · Midwest drive · Prestige',
+        s:['Myrtle Beach\'s far larger golf inventory offers Midwest groups more variety and price flexibility across a multi-round trip','Beach and entertainment give non-golfing Midwest travel companions a genuine reason to come along','Myrtle Beach\'s lodging and dining supply is significantly larger, easing group logistics for large Midwest golf trips'],
+        w:['Pinehurst\'s bucket-list credential (No. 2, the 2024 U.S. Open) carries real weight with serious Midwest golfers who\'ve researched destinations extensively','Pinehurst\'s continued course expansion keeps it in national golf media in a way Myrtle Beach\'s marketing doesn\'t match'],
+        o:['Value-per-round math is the clearest argument for Midwest golf trip organizers managing a group budget','Target Midwest golfers who\'ve completed the Pinehurst pilgrimage and now want volume and value on repeat trips'],
+        t:['Pinehurst\'s national media exposure since the 2024 U.S. Open continues to elevate its profile with serious golfers nationally, including in the Midwest'],
+        take:'As in other markets, Myrtle Beach should not compete for the Midwest golfer\'s single pilgrimage trip to Pinehurst — the value and volume argument for group trips is where Myrtle Beach genuinely wins.'
+      },
+      hiltonhead:{
+        idx:-5,
+        tags:'Golf & premium stretch · Midwest',
+        s:['Myrtle Beach\'s far larger and more affordable golf inventory gives Midwest golf groups more rounds per dollar than Hilton Head\'s premium course pricing','Myrtle Beach\'s broader entertainment and dining scene gives non-golfing travel companions more options'],
+        w:['Hilton Head\'s golf prestige and sustainability-forward branding appeal to the smaller but real segment of affluent Midwest golf travelers'],
+        o:['Lead with value-per-round messaging for Midwest golf groups, an area where Myrtle Beach\'s scale advantage over Hilton Head is clear and defensible'],
+        t:['Hilton Head\'s campaign investment and PGA Tour visibility keep it in front of the affluent golf traveler segment even in more distant Midwest markets'],
+        take:'For the price-sensitive majority of Midwest golf travel, Myrtle Beach wins clearly on value and volume. Hilton Head remains the aspirational, premium stretch option for the smaller affluent segment.'
+      }
+    },
+    shoulder_fall:{
+      gatlinburg:{
+        idx:5,
+        tags:'Mountain alternative · Shoulder/fall · Off-peak value',
+        s:['Myrtle Beach\'s off-season golf and beach combination gives shoulder-season travelers outdoor variety the Smokies\' hiking-and-cabin model doesn\'t match','Myrtle Beach\'s lodging supply is far larger, keeping shoulder-season pricing more flexible than Gatlinburg\'s increasingly premium cabin market'],
+        w:['Fall foliage season in the Smokies is a genuine, calendar-specific draw with no Myrtle Beach equivalent — leaf-peeping traffic is a real seasonal phenomenon','Cabin rentals with private hot tubs offer a cozy, weather-appropriate shoulder-season product that resonates emotionally in cooler months in a way beach condos don\'t'],
+        o:['Myrtle Beach\'s golf packages are the clearest shoulder-season differentiator against Gatlinburg — golf-focused marketing should lean into fall playability that mountain courses can\'t match','Target Gatlinburg\'s Dollywood-season visitors for an early-spring or late-fall beach add-on trip'],
+        t:['Gatlinburg\'s fall foliage season is becoming increasingly premium-priced and still sells out, suggesting durable demand Myrtle Beach\'s shoulder season doesn\'t yet generate at the same intensity'],
+        take:'Myrtle Beach\'s golf and value positioning give it a real edge over Gatlinburg for shoulder-season travelers focused on outdoor activity and cost, but Gatlinburg has built a genuinely strong fall foliage demand driver Myrtle Beach doesn\'t currently match.'
+      },
+      gulfshores:{
+        idx:10,
+        tags:'Gulf coast value rival · Shoulder/fall',
+        s:['Myrtle Beach\'s far larger golf inventory and established shoulder-season golf package market give it a stronger value-golf offering than Gulf Shores','Myrtle Beach\'s bigger lodging market offers more shoulder-season pricing flexibility'],
+        w:['Gulf Shores & Orange Beach\'s accelerating lodging revenue growth and lifestyle brand momentum suggest a market building real shoulder-season demand, not just a summer-only destination','Gulf State Park\'s nature and ecotourism assets give Gulf Shores an activity option beyond golf and beach'],
+        o:['Lead with golf value and package depth, an area where Myrtle Beach\'s scale advantage over Gulf Shores is clearest'],
+        t:['Gulf Shores\' continued investment and record lodging revenue growth suggest it is closing the gap with Myrtle Beach even in shoulder months'],
+        take:'Myrtle Beach\'s scale and golf inventory keep it ahead of Gulf Shores in the shoulder season for now, but Gulf Shores\' momentum means this gap deserves continued monitoring rather than assumption of a permanent lead.'
+      }
+    },
+    winter:{
+      orlando:{
+        idx:5,
+        tags:'Theme park alternative · Winter · Family',
+        s:['Myrtle Beach\'s winter value pricing on golf and lodging is generally more accessible than Orlando\'s premium theme park model','Myrtle Beach offers a calmer, lower-stimulation alternative for families burned out on theme park crowds and lines'],
+        w:['Orlando\'s theme park ecosystem remains an extremely powerful, largely unmatched demand driver for Midwest family travel regardless of season','Direct flight access from major Midwest hubs makes Orlando a low-friction, low-decision-effort choice for many Midwest families'],
+        o:['Position Myrtle Beach as a lower-cost, lower-stress complement to an Orlando theme park trip rather than a head-to-head substitute'],
+        t:['Orlando\'s record visitor growth and constant new-attraction news cycle keep it dominant in Midwest family vacation mindshare'],
+        take:'Myrtle Beach and Orlando serve different vacation needs more than they directly compete for Midwest winter travel. Myrtle Beach\'s value and pace advantages are most persuasive for families who have already done Orlando.'
+      }
+    }
+  },
+  canada:{
+    summer:{
+      oceancity:{
+        idx:5,
+        tags:'Regional drive/fly beach · Family',
+        s:['Myrtle Beach\'s golf inventory and broader entertainment ecosystem give Canadian travelers more built-in variety than Ocean City, MD\'s single-strip boardwalk model','Myrtle Beach\'s established, deep familiarity with the Canadian market (as its most significant international visitor base) means better-tailored marketing and hospitality experience than Ocean City typically offers'],
+        w:['Ocean City is somewhat more centrally positioned for Ontario and Quebec drive routes through the Mid-Atlantic corridor, depending on origin city'],
+        o:['Myrtle Beach\'s decades of dedicated Canadian marketing investment and golf infrastructure are strong, well-established differentiators to continue leaning into'],
+        t:['Ocean City\'s proximity for some Eastern Canadian drive routes could appeal to budget- or time-constrained Canadian travelers'],
+        take:'Myrtle Beach\'s long-standing position as Canada\'s most significant international visitor destination gives it a real structural advantage over Ocean City for this origin market.'
+      },
+      virginiabeach:{
+        idx:0,
+        tags:'Regional beach rival · Family · Momentum',
+        s:['Myrtle Beach\'s established Canadian visitor relationship and golf inventory give it deeper roots with this origin market than Virginia Beach currently has'],
+        w:['Virginia Beach\'s fresh national momentum could increasingly catch the attention of Canadian travelers researching U.S. East Coast destinations for the first time'],
+        o:['Myrtle Beach\'s decades of Canadian-market brand equity and golf infrastructure are durable advantages Virginia Beach hasn\'t built to the same degree'],
+        t:['Virginia Beach\'s rising national profile could begin drawing first-time Canadian travelers who haven\'t yet developed the loyalty to Myrtle Beach that many Canadian visitors already have'],
+        take:'Myrtle Beach\'s deep, established relationship with Canadian travelers remains its strongest asset against Virginia Beach in this market, but Virginia Beach\'s rising national profile is a trend worth monitoring.'
+      },
+      cancun:{
+        idx:-15,
+        tags:'Sun escape alternative · International · Fly market',
+        s:['Myrtle Beach requires no passport and offers a simpler, lower-logistics trip for Canadian families already comfortable with U.S. travel','Myrtle Beach\'s golf inventory is a category advantage Cancún\'s beach-and-resort model doesn\'t emphasize to the same degree','Myrtle Beach\'s deep, decades-long relationship with the Canadian market as its top international visitor source gives it a familiarity and marketing infrastructure edge'],
+        w:['Cancún and Riviera Maya are seeing genuinely record-breaking Canadian visitation growth, with Canada now among Quintana Roo\'s largest international visitor markets and growing','Expanded direct flight connectivity from Toronto and Montreal is actively lowering the access barrier that used to favor closer U.S. destinations like Myrtle Beach','The region\'s shift toward a luxury positioning is winning over a more upscale traveler segment, including affluent Canadians','All-inclusive pricing simplicity is a genuine, growing draw for Canadian families wanting one predictable total cost'],
+        o:['Myrtle Beach\'s golf and no-passport convenience remain real, defensible advantages worth continuing to emphasize directly to the Canadian market','Continue and expand direct marketing investment in Ontario and Quebec, where Myrtle Beach still holds meaningful brand recognition built over decades'],
+        t:['This is currently one of the most significant threats to Myrtle Beach\'s Canadian visitor base — Cancún/Riviera Maya\'s Canadian visitation growth is outpacing nearly every other segment, and new flight routes are accelerating it further'],
+        take:'This is one of Myrtle Beach\'s most urgent competitive concerns in the Canadian market. Cancún and Riviera Maya are actively winning Canadian visitation at real scale. Myrtle Beach\'s decades of Canadian brand equity are a real asset, but not a guarantee against a competitor growing this fast in exactly this market.'
+      },
+      obx:{
+        idx:10,
+        tags:'Southern stretch · Beach · Quieter alternative',
+        s:['Myrtle Beach\'s scale, golf inventory, and established Canadian-market relationships give it a clear practical edge over OBX for Canadian travelers already making a long trip south'],
+        w:['OBX\'s wild, undeveloped beaches offer a distinct experience that could appeal to a smaller segment of Canadian travelers seeking something less commercial'],
+        o:['Myrtle Beach\'s deep, decades-long Canadian marketing relationships and golf infrastructure are strong, defensible advantages over OBX\'s more limited international marketing reach'],
+        t:['OBX\'s growing profile in international travel media could slowly draw a small number of curious Canadian first-time visitors'],
+        take:'Myrtle Beach\'s established international marketing infrastructure and broader activity mix give it a clear advantage over OBX for the Canadian traveler.'
+      }
+    },
+    golf:{
+      hiltonhead:{
+        idx:0,
+        tags:'Golf-specific · Canadian snowbird & seasonal · Premium',
+        s:['Myrtle Beach\'s far larger and more affordable golf inventory gives value-conscious Canadian golfers significantly more rounds per dollar over an extended stay','Myrtle Beach\'s deep, established Canadian-market relationship and marketing infrastructure exceed Hilton Head\'s'],
+        w:['Hilton Head\'s golf prestige and sustainability-forward branding appeal strongly to the affluent segment of the Canadian golf market'],
+        o:['Lead with value-per-round and extended-stay affordability, both clear advantages for Canadian golfers planning multi-week trips'],
+        t:['Hilton Head\'s campaign investment and PGA Tour visibility could draw a share of the affluent Canadian golf segment'],
+        take:'For the value-focused majority of the Canadian golf market, Myrtle Beach\'s scale wins clearly. Hilton Head remains the aspirational, premium option for the smaller affluent segment of that same Canadian traveler base.'
+      },
+      pinehurst:{
+        idx:-10,
+        tags:'Golf-specific · Bucket list · Canadian golfers',
+        s:['Myrtle Beach\'s volume, price accessibility, and non-golf activity mix (beach) make it the more practical choice for Canadian golf groups managing a shared budget'],
+        w:['Pinehurst\'s bucket-list credential and U.S. Open history carry real weight with serious Canadian golfers who research extensively and travel specifically for course pedigree'],
+        o:['Target Canadian golfers who\'ve made the Pinehurst pilgrimage and now want volume, value, and a beach chapter on a follow-up trip'],
+        t:['Pinehurst\'s continued national and international golf media exposure keeps elevating its profile with serious golfers, including internationally'],
+        take:'As with other origin markets, Myrtle Beach shouldn\'t compete for the Canadian golfer\'s single pilgrimage trip to Pinehurst — the value and volume argument for group and repeat trips is where Myrtle Beach genuinely wins.'
+      }
+    },
+    winter:{
+      hiltonhead:{
+        idx:0,
+        tags:'Golf & snowbird rival · Premium',
+        s:['Myrtle Beach\'s far larger and more affordable golf inventory gives value-conscious Canadian snowbird golfers significantly more rounds per dollar over an extended winter stay','Myrtle Beach\'s deep, established Canadian-market relationship and marketing infrastructure exceed Hilton Head\'s'],
+        w:['Hilton Head\'s golf prestige and sustainability-forward branding appeal strongly to the affluent segment of the Canadian snowbird golf market','New national campaign investment behind Hilton Head is specifically targeting higher-spend visitor growth'],
+        o:['Lead with value-per-round and extended-stay affordability, both clear advantages for Canadian snowbirds planning multi-week or multi-month winter stays'],
+        t:['Hilton Head\'s campaign investment and PGA Tour visibility could draw a share of the affluent Canadian golf-snowbird segment'],
+        take:'For the value-focused majority of the Canadian golf-snowbird market, Myrtle Beach\'s scale wins clearly. Hilton Head remains the aspirational, premium stretch option for the smaller affluent segment of that same Canadian traveler base.'
+      },
+      charleston:{
+        idx:-10,
+        tags:'Cultural rival · Snowbird & winter',
+        s:['Myrtle Beach\'s golf and beach access give winter Canadian visitors an active outdoor option Charleston\'s walking-and-dining model doesn\'t match to the same degree','Myrtle Beach remains meaningfully more affordable for extended winter stays than Charleston\'s increasingly premium hotel market'],
+        w:['Charleston\'s globally recognized culinary and historic reputation carries real weight with well-traveled, affluent Canadian visitors','Charleston\'s deliberate high-value visitor strategy has proven successful at attracting exactly the kind of higher-spend, longer-staying traveler Myrtle Beach also wants more of'],
+        o:['Position Myrtle Beach\'s golf and value as the practical, activity-rich complement to a Charleston culture trip for Canadian visitors doing a South Carolina swing during their winter stay'],
+        t:['Charleston\'s continued success with high-spend visitors sets a demand benchmark for premium winter travel that Myrtle Beach hasn\'t yet fully captured from the Canadian market'],
+        take:'As in other markets, Charleston and Myrtle Beach serve different segments of the Canadian winter traveler\'s consideration set rather than competing head-to-head.'
+      },
+      cancun:{
+        idx:-25,
+        tags:'International sun escape · Snowbird · Luxury shift',
+        s:['Myrtle Beach requires no passport, offering a simpler winter-stay logistics package for Canadian snowbirds already established in U.S. travel patterns','Myrtle Beach\'s golf inventory and price accessibility remain a real category advantage for value-conscious extended-stay Canadian golfers'],
+        w:['Cancún and Riviera Maya\'s guaranteed warm winter weather is simply unmatched by Myrtle Beach\'s cooler off-season coastal climate — the single biggest factor for snowbird travelers seeking true winter escape','Canadian visitation to the Mexican Caribbean is growing sharply, with Canada now among the region\'s largest international markets and expanding air connectivity from Toronto and Montreal actively lowering access barriers','The region\'s luxury repositioning is successfully converting the affluent traveler segment, and all-inclusive pricing offers predictable extended-stay costs that appeal strongly to snowbirds'],
+        o:['Myrtle Beach\'s golf infrastructure and no-passport convenience are real, defensible advantages worth continued direct investment in Canadian marketing'],
+        t:['This is Myrtle Beach\'s single most serious competitive threat in its most important international market — Canadian visitation to the Mexican Caribbean is accelerating fast, backed by significant new promotional investment and expanding flight access, precisely during Myrtle Beach\'s off-season snowbird window'],
+        take:'This is the most consequential competitive matchup in the entire comp set. Myrtle Beach cannot offer guaranteed winter warmth, and Cancún/Riviera Maya is actively, successfully, and heavily investing to convert exactly the Canadian winter traveler Myrtle Beach depends on.'
+      },
+      orlando:{
+        idx:-5,
+        tags:'Theme park & sun escape · Snowbird',
+        s:['Myrtle Beach\'s golf and beach combination offers a calmer, more outdoor-focused winter trip than Orlando\'s theme-park-centered model','Myrtle Beach\'s off-season value pricing is generally more accessible than Orlando\'s premium, less seasonally discounted structure'],
+        w:['Orlando offers considerably milder, more reliably warm winter weather than Myrtle Beach\'s cooler coastal off-season climate','Orlando\'s direct flight access from major Canadian gateways is well-established and heavily marketed specifically to the Canadian winter-escape traveler'],
+        o:['Position Myrtle Beach as the calmer, golf-focused alternative for Canadian families who have already done Orlando\'s theme parks and want a different kind of winter trip'],
+        t:['Visit Orlando runs dedicated, well-funded seasonal campaigns specifically targeting the Ontario and Quebec markets'],
+        take:'Orlando\'s milder winter climate and dedicated Canadian marketing investment make it a real threat to Myrtle Beach\'s snowbird visitor base, though less acute than Cancún\'s.'
+      }
+    }
+  }
+};
+
+// ── BRAND VS DELIVERY DATA ────────────────────────────────────────────────
+const BRANDS={
+  myrtlebeach:{claim:'Myrtle Moments — "You Belong at The Beach" (evolved 2026, developed with MMGY Global)',reality:'Genuinely delivers on accessibility, value, and built-in entertainment — 60 miles of beach, 90+ golf courses, and a deep bench of family attractions are all real and consistently available. Recent visitation and occupancy softness suggests the value message needs to work harder against inflation and gas prices, but the core promise of an easy, ample beach vacation holds up on the ground.',gap:3,verdict:'Moderate gap'},
+  obx:{claim:'No unified consumer tagline — brand carried by the "Outer Banks Promise" stewardship pledge and the Long-Range Tourism Management Plan',reality:'Delivers strongly on its implicit promise of a quieter, wilder Atlantic coastline — Cape Hatteras National Seashore and the undeveloped beaches are real and not oversold. The tourism board\'s own pivot toward "responsible tourism" and resident-quality-of-life messaging is itself an acknowledgment that growth and character-preservation are now in real tension.',gap:2,verdict:'Tight fit'},
+  virginiabeach:{claim:'Live the Life',reality:'Increasingly well-earned — the boardwalk, ViBe Creative District murals, and a new privately backed wave-pool development are real, current investments, not aspirational claims, and recent independent national travel-press recognition is validation rather than DMO messaging.',gap:2,verdict:'Tight fit'},
+  hiltonhead:{claim:'Naturally Your Favorite (recent evolution of prior "America\'s Favorite Island" positioning)',reality:'Delivers well on the nature and design-forward planned-community promise — Audubon International sustainable-community certification and genuinely low-density development back up the claim. The premium price point means the "favorite" part is only true for travelers who can afford it, which the campaign doesn\'t address.',gap:3,verdict:'Moderate gap'},
+  charleston:{claim:'No paid consumer tagline currently in market — Explore Charleston brand carried through resident-facing "livability" messaging amid an active Tourism Management Plan overhaul',reality:'The food, architecture, and historic-district experience genuinely delivers at a world-class level — repeated #1 city rankings from major travel-reader polls are earned. The gap is between the "livability" promise to residents and the reality of record visitation straining housing, traffic, and neighborhood character, which is exactly why the city brought in outside consultants to help manage it.',gap:5,verdict:'Moderate gap'},
+  oceancity:{claim:'Somewhere to Smile About',reality:'A modest, honest claim that the classic boardwalk experience consistently delivers for its core Mid-Atlantic family audience. It doesn\'t oversell; it also doesn\'t try to be more than a reliable, nostalgic beach-town trip, which is precisely its appeal and its ceiling.',gap:2,verdict:'Tight fit'},
+  panamacity:{claim:'Real. FUN. Beach — evolving under the "Make It Yours" platform amid an active pivot away from spring break',reality:'In transition — the sugar-white sand and Gulf water genuinely deliver, but the destination is still actively working to shed a spring-break reputation that included real safety incidents. The brand promise of "real fun" is credible for the sand and water; it\'s still being rebuilt for the family-safety perception.',gap:6,verdict:'Significant gap'},
+  gulfshores:{claim:'Coastal Code',reality:'A newer, more character-driven campaign that\'s backed by real momentum — record lodging revenue growth and continued family-friendly investment support the lifestyle claim. Still building broader national recognition to match the ambition of the positioning.',gap:3,verdict:'Moderate gap'},
+  gatlinburg:{claim:'No unified destination tagline — Pigeon Forge, Gatlinburg, and Sevierville market separately, loosely tied together and anchored by Dollywood',reality:'Delivers exceptionally well on its core promise — Dollywood is regularly voted among the top amusement parks in the U.S., and the Great Smoky Mountains National Park is genuinely the most-visited in the country. The fragmented three-town branding is a real structural weakness, but the on-the-ground experience consistently exceeds expectations.',gap:2,verdict:'Tight fit'},
+  orlando:{claim:'Unbelievably Real',reality:'Backed by record visitation and continuous new-attraction investment, the claim largely holds up for the core theme park experience. The tagline is more aspirational when applied to Orlando\'s newer "city break" and local-experience positioning, which is still building credibility separate from the parks.',gap:3,verdict:'Moderate gap'},
+  cancun:{claim:'Luxury Experience of the Mexican Caribbean (repositioning away from the historic spring-break party identity)',reality:'A genuine and fast-moving transformation — new luxury resort openings and record Canadian visitation growth back up the shift. The old party-destination reputation still lingers in traveler perception even as the on-the-ground product changes quickly beneath it, and a recent overall visitation dip tied to broader macro and visa factors hasn\'t been fully offset by the luxury reposition yet.',gap:4,verdict:'Moderate gap'},
+  pinehurst:{claim:'Home of American Golf®',reality:'One of the most tightly earned claims in American destination marketing. Pinehurst No. 2\'s design pedigree, the return of the World Golf Hall of Fame and USGA Golf House to the village, and back-to-back hosting of the men\'s and women\'s U.S. Open in 2024 give the claim real institutional backing rather than marketing spin. The gap is narrow and structural, not credibility-based: non-golfers have genuinely little to do, and the Village\'s small-town charm has been increasingly polished by resort-scale development.',gap:2,verdict:'Tight fit'}
+};
+
+// ── AXES DATA ──────────────────────────────────────────────────────────────
+const AXES={
+  'Accessibility':{l:'High Effort / Long Haul',r:'Easy / Short Haul',s:{myrtlebeach:6,obx:3,virginiabeach:6,hiltonhead:3,charleston:4,oceancity:5,panamacity:2,gulfshores:1,gatlinburg:4,orlando:5,cancun:-4,pinehurst:5}},
+  'Price Point':{l:'Budget Friendly',r:'Premium / Luxury',s:{myrtlebeach:-4,obx:1,virginiabeach:0,hiltonhead:6,charleston:5,oceancity:-3,panamacity:-3,gulfshores:-1,gatlinburg:-2,orlando:2,cancun:3,pinehurst:7}},
+  'Development Level':{l:'Undeveloped / Natural',r:'Highly Developed / Commercial',s:{myrtlebeach:8,obx:-6,virginiabeach:2,hiltonhead:-3,charleston:1,oceancity:5,panamacity:4,gulfshores:0,gatlinburg:5,orlando:9,cancun:6,pinehurst:-2}},
+  'Family Entertainment Density':{l:'Quiet / Minimal Attractions',r:'Packed With Things To Do',s:{myrtlebeach:9,obx:-5,virginiabeach:3,hiltonhead:-4,charleston:-2,oceancity:6,panamacity:5,gulfshores:2,gatlinburg:9,orlando:10,cancun:2,pinehurst:-6}},
+  'Golf Prominence':{l:'Not a Golf Destination',r:'Premier Golf Destination',s:{myrtlebeach:9,obx:-6,virginiabeach:-5,hiltonhead:8,charleston:2,oceancity:-8,panamacity:-2,gulfshores:-3,gatlinburg:-4,orlando:1,cancun:0,pinehurst:10}},
+  'Brand Momentum':{l:'Steady / Legacy Brand',r:'Rising / Actively Reinventing',s:{myrtlebeach:1,obx:3,virginiabeach:8,hiltonhead:6,charleston:5,oceancity:-2,panamacity:5,gulfshores:6,gatlinburg:2,orlando:4,cancun:9,pinehurst:7}},
+  'Season Versatility':{l:'Single Season Specialist',r:'Four Season Destination',s:{myrtlebeach:6,obx:2,virginiabeach:4,hiltonhead:7,charleston:8,oceancity:1,panamacity:3,gulfshores:2,gatlinburg:7,orlando:9,cancun:8,pinehurst:3}}
+};
+const AK=Object.keys(AXES);
+
+// ── QUADRANT NAMES ─────────────────────────────────────────────────────────
+function getQuadrantNames(xAxis,yAxis){
+  const xd=AXES[xAxis],yd=AXES[yAxis];
+  const NAMED={
+    'Easy / Short Haul|Highly Developed / Commercial':'Convenient & Commercial',
+    'High Effort / Long Haul|Highly Developed / Commercial':'Worth-the-Trip Resort',
+    'Easy / Short Haul|Undeveloped / Natural':'Accessible Escape',
+    'High Effort / Long Haul|Undeveloped / Natural':'Remote Wilderness',
+    'Easy / Short Haul|Packed With Things To Do':'Quick-Hit Entertainment',
+    'High Effort / Long Haul|Packed With Things To Do':'Destination Entertainment',
+    'Easy / Short Haul|Quiet / Minimal Attractions':'Easy Quiet Escape',
+    'High Effort / Long Haul|Quiet / Minimal Attractions':'Journey to Solitude',
+    'Premium / Luxury|Highly Developed / Commercial':'Polished Resort',
+    'Budget Friendly|Highly Developed / Commercial':'Value Boardwalk',
+    'Premium / Luxury|Undeveloped / Natural':'Exclusive Nature',
+    'Budget Friendly|Undeveloped / Natural':'Rustic & Affordable',
+    'Premium / Luxury|Packed With Things To Do':'Premium Entertainment',
+    'Budget Friendly|Packed With Things To Do':'Volume Value',
+    'Premium / Luxury|Quiet / Minimal Attractions':'Quiet Luxury',
+    'Budget Friendly|Quiet / Minimal Attractions':'Sleepy & Affordable',
+    'Undeveloped / Natural|Premier Golf Destination':'Natural Golf Escape',
+    'Highly Developed / Commercial|Premier Golf Destination':'Golf Resort Hub',
+    'Undeveloped / Natural|Not a Golf Destination':'Pure Nature Play',
+    'Highly Developed / Commercial|Not a Golf Destination':'Commercial Non-Golf',
+    'Packed With Things To Do|Premier Golf Destination':'Golf & Everything Else',
+    'Quiet / Minimal Attractions|Premier Golf Destination':'Golf-First Retreat',
+    'Packed With Things To Do|Not a Golf Destination':'Non-Golf Entertainment Hub',
+    'Quiet / Minimal Attractions|Not a Golf Destination':'Off-the-Radar Quiet',
+    'Steady / Legacy Brand|Undeveloped / Natural':'Timeless Wild',
+    'Rising / Actively Reinventing|Undeveloped / Natural':'Rediscovered Nature',
+    'Steady / Legacy Brand|Highly Developed / Commercial':'Established Resort',
+    'Rising / Actively Reinventing|Highly Developed / Commercial':'Reinvented Resort',
+    'Steady / Legacy Brand|Packed With Things To Do':'Reliable Entertainment Hub',
+    'Rising / Actively Reinventing|Packed With Things To Do':'Momentum Destination',
+    'Steady / Legacy Brand|Quiet / Minimal Attractions':'Old Faithful Quiet',
+    'Rising / Actively Reinventing|Quiet / Minimal Attractions':'Emerging Quiet Escape',
+    'Four Season Destination|Undeveloped / Natural':'Year-Round Wild',
+    'Single Season Specialist|Undeveloped / Natural':'Seasonal Wilderness',
+    'Four Season Destination|Highly Developed / Commercial':'Year-Round Resort',
+    'Single Season Specialist|Highly Developed / Commercial':'Peak-Season Resort',
+    'Four Season Destination|Packed With Things To Do':'Always-On Entertainment',
+    'Single Season Specialist|Packed With Things To Do':'Seasonal Entertainment Peak',
+    'Four Season Destination|Quiet / Minimal Attractions':'Year-Round Retreat',
+    'Single Season Specialist|Quiet / Minimal Attractions':'Seasonal Quiet Window',
+    'Easy / Short Haul|Premier Golf Destination':'Accessible Golf Hub',
+    'High Effort / Long Haul|Premier Golf Destination':'Golf Pilgrimage',
+    'Easy / Short Haul|Not a Golf Destination':'Easy Non-Golf Trip',
+    'High Effort / Long Haul|Not a Golf Destination':'Long Haul, No Golf',
+    'Premium / Luxury|Premier Golf Destination':'Prestige Golf',
+    'Budget Friendly|Premier Golf Destination':'Value Golf',
+    'Premium / Luxury|Not a Golf Destination':'Luxury Without Golf',
+    'Budget Friendly|Not a Golf Destination':'Budget, No Golf',
+    'Easy / Short Haul|Rising / Actively Reinventing':'Convenient & On the Rise',
+    'High Effort / Long Haul|Rising / Actively Reinventing':'Worth Chasing the Momentum',
+    'Easy / Short Haul|Steady / Legacy Brand':'Reliable & Close',
+    'High Effort / Long Haul|Steady / Legacy Brand':'Legacy Trip Worth the Drive',
+    'Premium / Luxury|Rising / Actively Reinventing':'Luxury on the Rise',
+    'Budget Friendly|Rising / Actively Reinventing':'Value Momentum',
+    'Premium / Luxury|Steady / Legacy Brand':'Established Luxury',
+    'Budget Friendly|Steady / Legacy Brand':'Old Reliable Value',
+    'Four Season Destination|Rising / Actively Reinventing':'Momentum All Year',
+    'Single Season Specialist|Rising / Actively Reinventing':'Rising Peak Season',
+    'Four Season Destination|Steady / Legacy Brand':'Steady Year-Round',
+    'Single Season Specialist|Steady / Legacy Brand':'Classic Peak Season',
+    'Four Season Destination|Premier Golf Destination':'Golf Every Season',
+    'Single Season Specialist|Premier Golf Destination':'Peak-Season Golf',
+    'Four Season Destination|Not a Golf Destination':'Year-Round, No Golf',
+    'Single Season Specialist|Not a Golf Destination':'Seasonal, No Golf',
+  };
+  const lk=(x,y)=>NAMED[`${x}|${y}`]||NAMED[`${y}|${x}`]||'';
+  return{tr:lk(xd.r,yd.r),tl:lk(xd.l,yd.r),br:lk(xd.r,yd.l),bl:lk(xd.l,yd.l)};
+}
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+const S={
+  tab:'swot',
+  origin:'se_drive',
+  season:'summer',
+  comp:'obx',
+  xAxis:'Accessibility',
+  yAxis:'Family Entertainment Density'
+};
+
+const ORIGIN_LABELS={se_drive:'Southeast Drive',midatlantic_drive:'Mid-Atlantic Drive',ne_fly:'Northeast Fly',midwest:'Midwest Drive',canada:'Canada & International'};
+const SEASON_LABELS={summer:'Peak Summer',golf:'Golf Season',shoulder_fall:'Shoulder & Fall',winter:'Winter'};
+
+// ── HELPERS ────────────────────────────────────────────────────────────────
+function currentCompSet(){return COMPSETS[S.origin][S.season];}
+function currentSwot(){
+  try{return SWOTS[S.origin][S.season][S.comp];}catch(e){return null;}
+}
+
+// ── TAB ROUTING ────────────────────────────────────────────────────────────
+function setTab(t){
+  S.tab=t;
+  document.querySelectorAll('.ntab').forEach((b,i)=>{
+    b.classList.toggle('on',['swot','brand','sandbox'][i]===t);
+  });
+  if(t==='swot'){
+    g('sub').textContent='Head-to-head competitive analysis. Select an origin market, season, and competitor to compare.';
+    renderSwotSidebar();renderSwotCanvas();
+  }else if(t==='brand'){
+    g('sub').textContent='Brand platform vs. traveler reality. How well does each destination\'s marketing hold up to the actual experience?';
+    renderBrandSidebar();renderBrandCanvas();
+  }else{
+    g('sub').textContent='Plot any two competitive dimensions on a live perceptual map. Swap axes to explore.';
+    renderSandboxSidebar();buildSandboxMap();
+  }
+}
+
+// ── SWOT SIDEBAR ───────────────────────────────────────────────────────────
+function renderSwotSidebar(){
+  const cs=currentCompSet();
+  let html=`<div class="lbl sec-head"><span style="color:var(--co)">01 </span>Origin Market</div>`;
+  Object.keys(ORIGIN_LABELS).forEach(o=>{
+    html+=`<button class="cpill${S.origin===o?' on':''}" onclick="setOrigin('${o}')">${ORIGIN_LABELS[o]}</button>`;
+  });
+  html+=`<div class="lbl sec-head sdiv"><span style="color:var(--co)">02 </span>Season</div>`;
+  Object.keys(COMPSETS[S.origin]).forEach(s=>{
+    html+=`<button class="cpill${S.season===s?' on':''}" onclick="setSeason('${s}')">${SEASON_LABELS[s]}</button>`;
+  });
+  html+=`<div class="lbl sec-head sdiv"><span style="color:var(--co)">03 </span>Competitor</div>`;
+  Object.entries(cs.groups).forEach(([grp,comps])=>{
+    html+=`<div class="lbl" style="margin-bottom:4px;margin-top:8px">${grp}</div>`;
+    comps.forEach(c=>{
+      html+=`<button class="cpill${S.comp===c?' on':''}" onclick="setComp('${c}')">
+        <span class="dot" style="background:${BRIGHT[c]}"></span>${DN[c]}
+      </button>`;
+    });
+  });
+  g('sidebar').innerHTML=html;
+}
+
+function setOrigin(o){
+  S.origin=o;
+  const seasons=Object.keys(COMPSETS[o]);
+  if(!seasons.includes(S.season))S.season=seasons[0];
+  const cs=COMPSETS[o][S.season];
+  if(!cs.comps.includes(S.comp))S.comp=cs.comps[0];
+  renderSwotSidebar();renderSwotCanvas();
+}
+function setSeason(s){
+  S.season=s;
+  const cs=COMPSETS[S.origin][s];
+  if(!cs.comps.includes(S.comp))S.comp=cs.comps[0];
+  renderSwotSidebar();renderSwotCanvas();
+}
+function setComp(c){S.comp=c;renderSwotSidebar();renderSwotCanvas();}
+
+// ── SWOT CANVAS ────────────────────────────────────────────────────────────
+function renderSwotCanvas(){
+  const sw=currentSwot();
+  if(!sw){g('canvas').innerHTML=`<div class="card" style="padding:20px;margin:20px">No data for this combination yet.</div>`;return;}
+  const idx=sw.idx;
+  const pct=50-idx/2;
+  const col=idx>=0?C.myrtlebeach:C[S.comp];
+  const mbName='Myrtle Beach';
+  const compName=DN[S.comp];
+  g('canvas').innerHTML=`<div class="fadein">
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+      <div class="card" style="padding:10px 14px;flex:1;min-width:180px">
+        <div class="lbl" style="margin-bottom:4px">Competitor</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="width:12px;height:12px;border-radius:50%;background:${BRIGHT[S.comp]};display:inline-block"></span>
+          <b style="font-size:15px">${compName}</b>
+        </div>
+        <div style="font-size:11px;color:var(--mist);margin-top:2px">${sw.tags}</div>
+      </div>
+      <div class="card" style="padding:10px 14px;min-width:160px">
+        <div class="lbl" style="margin-bottom:4px">Advantage Index</div>
+        <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:${col}">${idx>0?'+':''}${idx}</div>
+      </div>
+      <div class="card" style="padding:10px 14px;min-width:140px">
+        <div class="lbl" style="margin-bottom:4px">Context</div>
+        <div style="font-size:12px;color:var(--mist)">${ORIGIN_LABELS[S.origin]} · ${SEASON_LABELS[S.season]}</div>
+      </div>
+    </div>
+    <div class="card" style="padding:14px;margin-bottom:16px">
+      <div class="lbl" style="margin-bottom:6px">Head-to-Head · ${mbName} vs. ${compName}</div>
+      <div class="gauge-wrap"><div class="gauge-needle" style="left:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between" class="lbl">
+        <span style="color:var(--co)">Myrtle Beach leads</span>
+        <span style="color:${C[S.comp]}">${compName} leads</span>
+      </div>
+    </div>
+    <div class="swot-grid">
+      <div class="swot-box" style="border-top:3px solid #2D9E6B">
+        <div class="lbl" style="color:#2D9E6B">+ Strengths <span style="color:var(--faint)">(Myrtle Beach advantage)</span></div>
+        <ul>${sw.s.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+      <div class="swot-box" style="border-top:3px solid #C64B4B">
+        <div class="lbl" style="color:#C64B4B">&#x2013; Weaknesses <span style="color:var(--faint)">(Myrtle Beach disadvantage)</span></div>
+        <ul>${sw.w.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+      <div class="swot-box" style="border-top:3px solid #2E7D9E">
+        <div class="lbl" style="color:#2E7D9E">&#x2197; Opportunities</div>
+        <ul>${sw.o.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+      <div class="swot-box" style="border-top:3px solid #B07E28">
+        <div class="lbl" style="color:#B07E28">&#x26A0; Threats</div>
+        <ul>${sw.t.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="card" style="padding:16px;border-left:3px solid var(--co);margin-top:16px">
+      <div class="lbl" style="margin-bottom:6px">Strategic Takeaway</div>
+      <p style="font-size:13.5px;color:var(--ink);line-height:1.6">${sw.take}</p>
+    </div>
+    <p class="note" style="margin-top:8px">Advantage index is MMGY\'s directional assessment (scale −100 to +100). Designed to prompt discussion, not define fact.</p>
+  </div>`;
+}
+
+// ── BRAND SIDEBAR ──────────────────────────────────────────────────────────
+function renderBrandSidebar(){
+  const allDests=Object.keys(BRANDS);
+  let html=`<div class="lbl sec-head">All Destinations</div>`;
+  allDests.forEach(d=>{
+    html+=`<button class="cpill${S.comp===d?' on':''}" onclick="setBrandComp('${d}')">
+      <span class="dot" style="background:${BRIGHT[d]||'#999'}"></span>${DN[d]||d}
+    </button>`;
+  });
+  g('sidebar').innerHTML=html;
+}
+
+function setBrandComp(d){S.comp=d;renderBrandSidebar();renderBrandCanvas();}
+
+function renderBrandCanvas(){
+  const dests=Object.keys(BRANDS);
+  let html=`<div class="fadein">`;
+  html+=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+    <div class="card" style="padding:12px 14px">
+      <div class="lbl" style="margin-bottom:4px">Tight Fit</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;color:#2D9E6B">${dests.filter(d=>BRANDS[d].gap<=2).length}</div>
+      <div style="font-size:11px;color:var(--mist)">destinations</div>
+    </div>
+    <div class="card" style="padding:12px 14px">
+      <div class="lbl" style="margin-bottom:4px">Moderate Gap</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;color:#B07E28">${dests.filter(d=>BRANDS[d].gap>2&&BRANDS[d].gap<=5).length}</div>
+      <div style="font-size:11px;color:var(--mist)">destinations</div>
+    </div>
+    <div class="card" style="padding:12px 14px">
+      <div class="lbl" style="margin-bottom:4px">Significant Gap</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;color:#C64B4B">${dests.filter(d=>BRANDS[d].gap>5).length}</div>
+      <div style="font-size:11px;color:var(--mist)">destinations</div>
+    </div>
+  </div>`;
+  const bd=BRANDS[S.comp];
+  if(bd){
+    const gapColor=bd.gap<=2?'#2D9E6B':bd.gap<=5?'#B07E28':'#C64B4B';
+    html+=`<div class="card" style="padding:18px;margin-bottom:16px;border-left:3px solid ${BRIGHT[S.comp]||'#999'}">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="width:14px;height:14px;border-radius:50%;background:${BRIGHT[S.comp]||'#999'};display:inline-block;flex-shrink:0"></span>
+        <b style="font-size:16px">${DN[S.comp]}</b>
+        <span style="margin-left:auto;font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;background:${gapColor}22;color:${gapColor}">${bd.verdict}</span>
+      </div>
+      <div style="margin-bottom:12px">
+        <div class="lbl" style="margin-bottom:4px">Brand Claim</div>
+        <div style="font-family:'Fraunces',serif;font-size:15px;font-style:italic;color:var(--ink)">"${bd.claim}"</div>
+      </div>
+      <div style="margin-bottom:14px">
+        <div class="lbl" style="margin-bottom:4px">Delivery Reality</div>
+        <p style="font-size:13px;color:var(--ink);line-height:1.6">${bd.reality}</p>
+      </div>
+      <div>
+        <div class="lbl" style="margin-bottom:6px">Brand–Reality Gap</div>
+        <div class="brand-bar-wrap">
+          <div class="brand-bar-fill" style="width:${bd.gap*10}%;background:${gapColor}"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--faint);font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:.1em">
+          <span>Tight</span><span>Moderate</span><span>Significant</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  html+=`<div class="lbl" style="margin-bottom:10px">All Destinations — Brand Gap Overview</div>`;
+  const sorted=[...dests].sort((a,b)=>BRANDS[a].gap-BRANDS[b].gap);
+  sorted.forEach(d=>{
+    const bd=BRANDS[d];
+    const gapColor=bd.gap<=2?'#2D9E6B':bd.gap<=5?'#B07E28':'#C64B4B';
+    html+=`<div class="brand-card" style="cursor:pointer;${S.comp===d?`border-color:${BRIGHT[d]||'#999'};border-width:1.5px`:''}" onclick="setBrandComp('${d}')">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="width:10px;height:10px;border-radius:50%;background:${BRIGHT[d]||'#999'};display:inline-block;flex-shrink:0"></span>
+        <b style="font-size:13px">${DN[d]}</b>
+        <span style="font-family:'Fraunces',serif;font-size:11px;color:var(--mist);flex:1">"${bd.claim}"</span>
+        <span style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:999px;background:${gapColor}22;color:${gapColor};white-space:nowrap">${bd.verdict}</span>
+      </div>
+      <div class="brand-bar-wrap" style="margin:0">
+        <div class="brand-bar-fill" style="width:${bd.gap*10}%;background:${gapColor}"></div>
+      </div>
+    </div>`;
+  });
+  html+=`</div>`;
+  g('canvas').innerHTML=html;
+}
+
+// ── SANDBOX SIDEBAR ────────────────────────────────────────────────────────
+function renderSandboxSidebar(){
+  let html=`<div class="lbl sec-head"><span style="color:var(--co)">01 </span>Horizontal (X) Axis</div>`;
+  AK.forEach(k=>{
+    html+=`<button class="cpill${S.xAxis===k?' on':''}" ${S.yAxis===k?'disabled':''} onclick="setXAxis('${k}')">${k}</button>`;
+  });
+  html+=`<div class="lbl sec-head sdiv"><span style="color:var(--co)">02 </span>Vertical (Y) Axis</div>`;
+  AK.forEach(k=>{
+    html+=`<button class="cpill${S.yAxis===k?' on':''}" ${S.xAxis===k?'disabled':''} onclick="setYAxis('${k}')">${k}</button>`;
+  });
+  g('sidebar').innerHTML=html;
+}
+
+function setXAxis(v){S.xAxis=v;if(S.yAxis===v){S.yAxis=AK.find(a=>a!==v);}renderSandboxSidebar();updateSandboxMap();}
+function setYAxis(v){S.yAxis=v;renderSandboxSidebar();updateSandboxMap();}
+
+// ── SANDBOX MAP ────────────────────────────────────────────────────────────
+function buildSandboxMap(){
+  const xd=AXES[S.xAxis],yd=AXES[S.yAxis];
+  const toL=s=>50+s*4,toT=s=>50-s*4;
+  const gv=[-8,-6,-4,-2,2,4,6,8].map(v=>`<line x1="${toL(v)}" y1="3" x2="${toL(v)}" y2="97" stroke="rgba(255,255,255,0.05)" stroke-width="0.2"/>`).join('');
+  const gh=[-8,-6,-4,-2,2,4,6,8].map(v=>`<line x1="3" y1="${toT(v)}" x2="97" y2="${toT(v)}" stroke="rgba(255,255,255,0.05)" stroke-width="0.2"/>`).join('');
+  const nclX=xd.s.myrtlebeach,nclY=yd.s.myrtlebeach;
+  const coQ=(nclY>=0?'t':'b')+(nclX>=0?'r':'l');
+  const qNames=getQuadrantNames(S.xAxis,S.yAxis);
+  const quadPositions={
+    tl:{left:'3%',top:'6%',anchor:'left'},
+    tr:{right:'3%',top:'6%',anchor:'right'},
+    bl:{left:'3%',bottom:'6%',anchor:'left'},
+    br:{right:'3%',bottom:'6%',anchor:'right'}
+  };
+  const qlabels=['tl','tr','bl','br'].map(q=>{
+    const isCo=q===coQ;
+    const pos=quadPositions[q];
+    const posStyle=pos.bottom!==undefined
+      ?(pos.anchor==='right'?`right:${pos.right};bottom:${pos.bottom}`:`left:${pos.left};bottom:${pos.bottom}`)
+      :(pos.anchor==='right'?`right:${pos.right};top:${pos.top}`:`left:${pos.left};top:${pos.top}`);
+    return `<div id="qlabel-${q}" style="position:absolute;${posStyle};pointer-events:none;text-align:${pos.anchor};z-index:20;max-width:26%">
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:${isCo?'rgba(255,255,255,0.95)':'rgba(255,255,255,0.45)'};line-height:1.4;letter-spacing:0.01em;${isCo?'text-shadow:0 0 20px rgba(63,191,196,0.6)':''}">${qNames[q]}</div>
+    </div>`;
+  }).join('');
+  const axPills=`
+    <div id="ax-xl" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#0B2530;text-transform:uppercase;letter-spacing:.1em;background:#fff;border-radius:7px;padding:6px 12px;pointer-events:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:25">\u2190 ${xd.l.toUpperCase()}</div>
+    <div id="ax-xr" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#0B2530;text-transform:uppercase;letter-spacing:.1em;background:#fff;border-radius:7px;padding:6px 12px;pointer-events:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:25">${xd.r.toUpperCase()} \u2192</div>
+    <div id="ax-yt" style="position:absolute;top:14px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#0B2530;text-transform:uppercase;letter-spacing:.1em;background:#fff;border-radius:7px;padding:6px 12px;pointer-events:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:25">\u2191 ${yd.r.toUpperCase()}</div>
+    <div id="ax-yb" style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:#0B2530;text-transform:uppercase;letter-spacing:.1em;background:#fff;border-radius:7px;padding:6px 12px;pointer-events:none;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.2);z-index:25">\u2193 ${yd.l.toUpperCase()}</div>`;
+  const allDests=Object.keys(C);
+  const toks=allDests.map(d=>{
+    const col=BRIGHT[d]||'#999';
+    const isCo=d==='myrtlebeach';
+    return `<div id="tok-${d}" class="map-tok" style="left:${toL(xd.s[d]||0)}%;top:${toT(yd.s[d]||0)}%">
+      <div class="tok-ring" style="color:${col};inset:${isCo?'-16px':'-11px'};opacity:${isCo?0.7:0.35}"></div>
+      <div class="tok-dot" style="background:${col};box-shadow:0 0 ${isCo?'32px':'20px'} ${col}${isCo?'99':'66'},0 0 ${isCo?'12px':'6px'} ${col}${isCo?'66':'44'};width:${isCo?'60px':'48px'};height:${isCo?'60px':'48px'};${isCo?'border:2px solid rgba(255,255,255,0.6)':''}"></div>
+      <div style="position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:'Inter',sans-serif;font-size:${isCo?'12px':'11px'};font-weight:${isCo?700:600};color:rgba(255,255,255,${isCo?0.98:0.88});background:rgba(8,30,38,0.85);border:1px solid rgba(${isCo?'63,191,196':'255,255,255'},${isCo?0.4:0.12});border-radius:5px;padding:3px 8px;pointer-events:none">${DN[d]}</div>
+    </div>`;
+  }).join('');
+  g('canvas').innerHTML=`<div class="fadein">
+    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <div class="card" id="chip-x" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:8px"><span class="lbl">X \u2192</span><b>${S.xAxis}</b><span style="color:var(--faint);font-size:10px">${xd.l} \u2194 ${xd.r}</span></div>
+      <div class="card" id="chip-y" style="padding:8px 14px;font-size:12px;display:flex;align-items:center;gap:8px"><span class="lbl">Y \u2191</span><b>${S.yAxis}</b><span style="color:var(--faint);font-size:10px">${yd.l} \u2194 ${yd.r}</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0;margin-bottom:16px">
+      <div style="display:flex;gap:0">
+        <div id="ybar" style="width:44px;flex-shrink:0;background:rgba(63,191,196,0.25);border-radius:10px 0 0 0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(63,191,196,0.5);border-right:none;border-bottom:none">
+          <span style="font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:#0B2530;text-transform:uppercase;letter-spacing:.18em;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap">${S.yAxis}</span>
+        </div>
+        <div style="position:relative;background:#08262B;border-radius:0 16px 16px 0;aspect-ratio:4/3;flex:1;overflow:visible;box-shadow:0 8px 32px rgba(0,0,0,0.25),0 0 0 1px rgba(63,191,196,0.2)">
+          <div style="position:absolute;inset:0;border-radius:0 16px 16px 16px;overflow:hidden;background:linear-gradient(145deg,#0F3A40 0%,#08262B 60%,#051A1E 100%)">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">${gv}${gh}<line x1="50" y1="3" x2="50" y2="97" stroke="rgba(63,191,196,0.18)" stroke-width="0.35" stroke-dasharray="1 0.6"/><line x1="3" y1="50" x2="97" y2="50" stroke="rgba(63,191,196,0.18)" stroke-width="0.35" stroke-dasharray="1 0.6"/></svg>
+            ${axPills}
+          </div>
+          ${qlabels}
+          ${toks}
+        </div>
+      </div>
+      <div style="display:flex">
+        <div style="width:44px;flex-shrink:0;background:rgba(63,191,196,0.25);border-radius:0 0 0 10px;border:1px solid rgba(63,191,196,0.5);border-top:none;border-right:none"></div>
+        <div id="xbar" style="flex:1;height:44px;background:rgba(63,191,196,0.25);border-radius:0 0 10px 0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(63,191,196,0.5);border-top:none;border-left:none">
+          <span style="font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:#0B2530;text-transform:uppercase;letter-spacing:.18em;white-space:nowrap">${S.xAxis}</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Axis scores are MMGY\u2019s directional assessment (scale \u221210 to +10). Myrtle Beach shown as the anchor. Designed to prompt discussion, not define fact.</p>
+  </div>`;
+}
+
+function updateSandboxMap(){
+  const xd=AXES[S.xAxis],yd=AXES[S.yAxis];
+  const toL=s=>50+s*4,toT=s=>50-s*4;
+  Object.keys(C).forEach(d=>{
+    const t=g(`tok-${d}`);
+    if(t){t.style.left=`${toL(xd.s[d]||0)}%`;t.style.top=`${toT(yd.s[d]||0)}%`;}
+  });
+  const coQ=(yd.s.myrtlebeach>=0?'t':'b')+(xd.s.myrtlebeach>=0?'r':'l');
+  const qNames=getQuadrantNames(S.xAxis,S.yAxis);
+  const quadAligns={tl:'left',tr:'right',bl:'left',br:'right'};
+  ['tl','tr','bl','br'].forEach(q=>{
+    const el=g(`qlabel-${q}`);
+    if(!el)return;
+    const isCo=q===coQ;
+    el.style.textAlign=quadAligns[q];
+    el.innerHTML=`<div style="font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:${isCo?'rgba(255,255,255,0.95)':'rgba(255,255,255,0.45)'};line-height:1.4;letter-spacing:0.01em;${isCo?'text-shadow:0 0 20px rgba(63,191,196,0.6)':''}">${qNames[q]}</div>`;
+  });
+  const xl=g('ax-xl'),xr=g('ax-xr'),yt=g('ax-yt'),yb=g('ax-yb');
+  if(xl)xl.textContent=`\u2190 ${xd.l.toUpperCase()}`;
+  if(xr)xr.textContent=`${xd.r.toUpperCase()} \u2192`;
+  if(yt)yt.textContent=`\u2191 ${yd.r.toUpperCase()}`;
+  if(yb)yb.textContent=`\u2193 ${yd.l.toUpperCase()}`;
+  const cx=g('chip-x'),cy=g('chip-y');
+  if(cx)cx.innerHTML=`<span class="lbl">X \u2192</span><b>${S.xAxis}</b><span style="color:var(--faint);font-size:10px">${xd.l} \u2194 ${xd.r}</span>`;
+  if(cy)cy.innerHTML=`<span class="lbl">Y \u2191</span><b>${S.yAxis}</b><span style="color:var(--faint);font-size:10px">${yd.l} \u2194 ${yd.r}</span>`;
+  const ybar=g('ybar'),xbar=g('xbar');
+  if(ybar)ybar.querySelector('span').textContent=S.yAxis;
+  if(xbar)xbar.querySelector('span').textContent=S.xAxis;
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+setTab('swot');
+</script>
+</body>
+</html>
